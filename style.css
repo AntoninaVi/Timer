@@ -1,0 +1,114 @@
+body {
+  font-family: "Kumbh Sans", sans-serif;
+  font-family: "Roboto Slab", serif;
+  font-family: "Space Mono", monospace;
+  font-style: normal;
+  font-weight: 700;
+  color: #d7e0ff;
+  background: #1e213f;
+}
+
+.container {
+  max-width: 25em;
+  width: 100%;
+  margin-top: 5em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.main-title {
+  font-family: "Kumbh Sans";
+  font-size: 32px;
+  line-height: 40px;
+  text-align: center;
+  color: #d7e0ff;
+}
+
+.buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 373px;
+  padding: 8px 7px;
+  background: #161932;
+  border-radius: 31.5px;
+  white-space: nowrap;
+  margin-bottom: 2.8em;
+}
+
+.main-button {
+  font-family: "Roboto Slab";
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  color: #d7e0ff;
+  mix-blend-mode: normal;
+  opacity: 0.4;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 14px 26px;
+}
+
+.main-button:hover {
+  color: #1e213f;
+  background: #70f3f8;
+  border-radius: 26.5px;
+  opacity: 1;
+  -webkit-transition: 0.3;
+  transition: 0.3;
+}
+
+.main-time {
+  position: relative;
+  width: 26em;
+  height: 26em;
+  border: 2px solid gray;
+  border-radius: 50%;
+  margin: 0 auto;
+  background: linear-gradient(315deg, #2E325A 0%, #0E112A 100%);
+  -webkit-box-shadow: -50px -50px 100px #272C5A, 50px 50px 100px #121530;
+          box-shadow: -50px -50px 100px #272C5A, 50px 50px 100px #121530;
+}
+
+.timer {
+  font-family: "Roboto Slab";
+  font-size: 100px;
+  line-height: 132px;
+  text-align: center;
+  color: #d7e0ff;
+  margin-bottom: 3rem;
+  padding-top: 1em;
+}
+
+.pause-btn {
+  display: block;
+  margin: 0 auto;
+  font-family: "Roboto Slab";
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: 15px;
+  text-transform: uppercase;
+  color: #d7e0ff;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 26em;
+  border-radius: 50%;
+  border: 4px solid #f00;
+  clip: rect(0, 50px, 100px, 0);
+  z-index: 1;
+}
