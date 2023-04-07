@@ -29,15 +29,51 @@
                 <button class="main-button" id="longBreakButton">long break</button>
             </div>
             <div id="main-time" class="main-time">
-                
-                <div id="progress" class="progress"></div>
+
+
                 <div class="timer" id="timer">25:00</div>
+                <progress id="progress" value="0" max="100"></progress>
                 <button class="pause-btn" id="pauseButton">pause</button>
             </div>
 
 
         </div>
+        <button id="settingsBtn" class="settings__button-main">settings</button>
+        <section class="settings__section" id="settings">
+            <button class="settings__button-close" id="closeBtn"></button>
+            <h2 class="settings__title">settings</h2>
 
+            <div id="settings__time">
+                <h2>Time(minutes)</h2>
+                <div class="" id="selectTimePomodoro">
+                    <label for="pomodoroTimeInput">Pomodoro</label>
+                    <input type="number" id="pomodoroTimeInput" value="25">
+                </div>
+                <div class="" id="selectTimeShort">
+                    <label for="shortTimeInput">Short Break</label>
+                    <input type="number" id="shortTimeInput" value="5">
+                </div>
+                <div class="" id="selectTimeLong">
+                    <label for="longTimeInput">Short Break</label>
+                    <input type="number" id="longTimeInput" value="15">
+                </div>
+            </div>
+
+
+            <div id="selectColor">
+                <h3 class="colors">Color</h3>
+                <button class="red"></button>
+                <button class="blue"></button>
+                <button class="purple"></button>
+            </div>
+            <div id="selectFont">
+                <h3 class="fonts">Font</h3>
+                <button class="kumbhsans"></button>
+                <button class="roboto"></button>
+                <button class="space"></button>
+            </div>
+            <button class="settings__button-apply">Apply</button>
+        </section>
 
 
 

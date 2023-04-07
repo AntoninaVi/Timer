@@ -25,7 +25,7 @@ function startTimer(duration, display) {
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
         display.textContent = minutes + ":" + seconds;
-        progressCircle.style.clip = `rect(0, ${100 - (timer / duration) * 100}px, 100px, 0)`;
+        // progressCircle.style.clip = `rect(0, ${100 - (timer / duration) * 100}px, 100px, 0)`;
 
         if (--timer < 0) {
             clearInterval(countdown);
@@ -64,3 +64,28 @@ longBreakButton.addEventListener('click', () => resetTimer(30 * 60));
 pauseButton.addEventListener('click', pauseTimer);
 
 
+// SETTINGS SECTION
+
+// Modal window
+const settingsBtn = document.getElementById("settingsBtn");
+const modal = document.getElementById("settings");
+const closeBtn = document.getElementById("closeBtn");
+
+
+settingsBtn.onclick = function() {
+  modal.style.display = "block";
+}
+
+
+closeBtn.onclick = function() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+// Settings
