@@ -59,7 +59,7 @@ function resetTimer(duration) {
 }
 
 pomodoroButton.addEventListener('click', () => resetTimer(25 * 60));
-shortBreakButton.addEventListener('click', () => resetTimer(4 * 60));
+shortBreakButton.addEventListener('click', () => resetTimer(5 * 60));
 longBreakButton.addEventListener('click', () => resetTimer(30 * 60));
 pauseButton.addEventListener('click', pauseTimer);
 
@@ -89,3 +89,49 @@ window.onclick = function(event) {
 
 
 // Settings
+
+const settingsModal = document.getElementById('settings');
+const pomodoroInput = document.querySelector('#pomodoroTimeInput');
+const shortInput = document.querySelector('#shortTimeInput');
+const longInput = document.querySelector('#longTimeInput');
+const applyBtn = document.querySelector('.settings__button-apply');
+
+
+
+// Time settings and close modal when applied
+applyBtn.addEventListener('click', () => {
+  const pomodoroTime = parseInt(pomodoroInput.value);
+  const shortBreakTime = parseInt(shortInput.value);
+  const longBreakTime = parseInt(longInput.value);
+
+  if (pomodoroTime && shortBreakTime && longBreakTime) {
+    timerDisplay.textContent = `${pomodoroTime}:00`;
+    settingsModal.style.display='none';
+  } else {
+    alert('Please enter valid input values');
+  }
+});
+
+const shortBreakInput = document.getElementById('shortTimeInput');
+const longBreakInput = document.getElementById('longTimeInput');
+
+// Load saved values from localStorage
+pomodoroInput.value = localStorage.getItem('pomodoroTime') || pomodoroInput.value;
+shortBreakInput.value = localStorage.getItem('shortBreakTime') || shortBreakInput.value;
+longBreakInput.value = localStorage.getItem('longBreakTime') || longBreakInput.value;
+
+// Save to localStorage
+const applyButton = document.querySelector('.settings__button-apply');
+applyButton.addEventListener('click', () => {
+  localStorage.setItem('pomodoroTime', pomodoroInput.value);
+  localStorage.setItem('shortBreakTime', shortBreakInput.value);
+  localStorage.setItem('longBreakTime', longBreakInput.value);
+});
+
+// Reset timer with
+pomodoroButton.addEventListener('click', () => resetTimer(pomodoroInput.value * 60));
+shortBreakButton.addEventListener('click', () => resetTimer(shortBreakInput.value * 60));
+longBreakButton.addEventListener('click', () => resetTimer(longBreakInput.value * 60));
+
+//
+resetTimer(pomodoroInput.value * 60);
