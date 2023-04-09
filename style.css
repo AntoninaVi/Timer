@@ -65,6 +65,15 @@ body {
   transition: 0.3;
 }
 
+.main-button:focus {
+  color: #1e213f;
+  background: #70f3f8;
+  border-radius: 26.5px;
+  opacity: 1;
+  -webkit-transition: 0.3;
+  transition: 0.3;
+}
+
 .main-time {
   position: relative;
   width: 26em;

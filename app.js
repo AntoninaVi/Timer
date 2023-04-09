@@ -32,13 +32,13 @@ function startTimer(duration, display) {
             cycleCount++;
             if (cycleCount % 4 === 0) {
               startTimer(30 * 60, display); // Start long break
-              progressCircle.className = 'progress long-break';
+              progressCircle.className = 'progress';
             } else {
               startTimer(4 * 60, display); // Start short break
-              progressCircle.className = 'progress short-break';
+              progressCircle.className = 'progress';
             }
         } else if (timer < 20) {
-          progressCircle.className = 'progress pomodoro';
+          progressCircle.className = 'progress';
         }
       }
       remainingTime = timer;
@@ -89,7 +89,6 @@ window.onclick = function(event) {
 
 
 // Settings
-
 const settingsModal = document.getElementById('settings');
 const pomodoroInput = document.querySelector('#pomodoroTimeInput');
 const shortInput = document.querySelector('#shortTimeInput');
@@ -135,3 +134,80 @@ longBreakButton.addEventListener('click', () => resetTimer(longBreakInput.value 
 
 //
 resetTimer(pomodoroInput.value * 60);
+
+// Fonts
+
+const fontButtons = document.querySelectorAll('#selectFont button');
+const defaultFont = localStorage.getItem('font') || 'sans-serif';
+
+// Change font when clicked
+fontButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const font = button.classList[0];
+    document.body.style.fontFamily = font;
+    localStorage.setItem('font', font);
+  });
+});
+
+//Save font
+document.body.style.fontFamily = defaultFont;
+
+// Save font to localStorage when applied
+applyButton.addEventListener('click', () => {
+  localStorage.setItem('font', document.body.style.fontFamily);
+});
+
+
+// Colors
+const red = "#F87070";
+const blue = "#70F3F8";
+const purple = "#D881F8";
+
+
+const redBtn = document.querySelector(".red");
+const blueBtn = document.querySelector(".blue");
+const purpleBtn = document.querySelector(".purple");
+const mainBtns = document.querySelectorAll(".main-button");
+const pauseBtn = document.querySelector(".pause-btn");
+const progress = document.querySelector(".progress");
+
+
+function changeColors() {
+// Change bg-color .main-buttons
+  mainBtns.forEach((btn) => {
+    btn.style.backgroundColor = "";
+    btn.style.color = "";
+    btn.addEventListener("mouseover", () => {
+      btn.style.backgroundColor = this.color;
+    });
+    btn.addEventListener("mouseout", () => {
+      btn.style.backgroundColor = "";
+    });
+    btn.addEventListener("mousedown", () => { //need to be fixed
+      btn.style.backgroundColor = this.color;
+    });
+    btn.addEventListener("mouseup", () => {
+      btn.style.backgroundColor = "";
+    });
+  });
+
+
+  pauseBtn.style.color = this.color;
+  // progress.style.color = this.color;
+}
+
+
+redBtn.addEventListener("click", function () {
+  this.color = red;
+  changeColors.call(this);
+});
+
+blueBtn.addEventListener("click", function () {
+  this.color = blue;
+  changeColors.call(this);
+});
+
+purpleBtn.addEventListener("click", function () {
+  this.color = purple;
+  changeColors.call(this);
+});
