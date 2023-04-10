@@ -32,13 +32,13 @@ function startTimer(duration, display) {
             cycleCount++;
             if (cycleCount % 4 === 0) {
               startTimer(30 * 60, display); // Start long break
-              progressCircle.className = 'progress';
+              // progressCircle.className = 'progress';
             } else {
               startTimer(4 * 60, display); // Start short break
-              progressCircle.className = 'progress';
+              // progressCircle.className = 'progress';
             }
         } else if (timer < 20) {
-          progressCircle.className = 'progress';
+          // progressCircle.className = 'progress';
         }
       }
       remainingTime = timer;
@@ -72,13 +72,17 @@ const modal = document.getElementById("settings");
 const closeBtn = document.getElementById("closeBtn");
 
 
+
 settingsBtn.onclick = function() {
   modal.style.display = "block";
+  applyBtn.style.display = "block"
+
 }
 
 
 closeBtn.onclick = function() {
   modal.style.display = "none";
+  applyBtn.style.display = "none";
 }
 
 window.onclick = function(event) {
@@ -102,6 +106,7 @@ applyBtn.addEventListener('click', () => {
   const pomodoroTime = parseInt(pomodoroInput.value);
   const shortBreakTime = parseInt(shortInput.value);
   const longBreakTime = parseInt(longInput.value);
+  applyBtn.style.display = "none";
 
   if (pomodoroTime && shortBreakTime && longBreakTime) {
     timerDisplay.textContent = `${pomodoroTime}:00`;
@@ -136,7 +141,6 @@ longBreakButton.addEventListener('click', () => resetTimer(longBreakInput.value 
 resetTimer(pomodoroInput.value * 60);
 
 // Fonts
-
 const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
@@ -145,17 +149,24 @@ fontButtons.forEach(button => {
   button.addEventListener('click', () => {
     const font = button.classList[0];
     document.body.style.fontFamily = font;
+    document.querySelectorAll('*').forEach(element => {
+      element.style.fontFamily = font;
+    });
     localStorage.setItem('font', font);
   });
 });
 
-//Save font
+// Save font
 document.body.style.fontFamily = defaultFont;
+document.querySelectorAll('*').forEach(element => {
+  element.style.fontFamily = defaultFont;
+});
 
 // Save font to localStorage when applied
 applyButton.addEventListener('click', () => {
   localStorage.setItem('font', document.body.style.fontFamily);
 });
+
 
 
 // Colors
@@ -177,18 +188,25 @@ function changeColors() {
   mainBtns.forEach((btn) => {
     btn.style.backgroundColor = "";
     btn.style.color = "";
+  
     btn.addEventListener("mouseover", () => {
       btn.style.backgroundColor = this.color;
     });
     btn.addEventListener("mouseout", () => {
       btn.style.backgroundColor = "";
     });
-    btn.addEventListener("mousedown", () => { //need to be fixed
+    btn.addEventListener("mousedown", () => {
       btn.style.backgroundColor = this.color;
     });
-    btn.addEventListener("mouseup", () => {
+    // btn.addEventListener("mouseup", () => {
+    //   btn.style.backgroundColor = "";
+    // });
+    btn.addEventListener("focus", () => {
+      btn.style.backgroundColor = this.color;
+      });
+      btn.addEventListener("blur", () => {
       btn.style.backgroundColor = "";
-    });
+      });
   });
 
 
@@ -211,3 +229,6 @@ purpleBtn.addEventListener("click", function () {
   this.color = purple;
   changeColors.call(this);
 });
+
+
+

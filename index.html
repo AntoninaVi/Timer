@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@700&family=Roboto+Slab:wght@700&family=Space+Mono:wght@700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@700&family=Roboto+Slab:wght@700&family=Space+Mono:wght@700&"
         rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
@@ -29,51 +29,80 @@
                 <button class="main-button" id="longBreakButton">long break</button>
             </div>
             <div id="main-time" class="main-time">
+                <div class="main-time-circle">
+                    <div class="timer" id="timer">25:00</div>
+                    <button class="pause-btn" id="pauseButton">restart</button>
+                </div>
 
-
-                <div class="timer" id="timer">25:00</div>
                 <!-- <progress class="progress" id="progress" value="0" max="100"></progress> -->
-                <button class="pause-btn" id="pauseButton">restart</button>
+
             </div>
 
 
         </div>
-        <button id="settingsBtn" class="settings__button-main">settings</button>
+        <button id="settingsBtn" class="settings__button-main">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g opacity="0.5">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M24.0378 15.365L26.9654 17.682C27.229 17.899 27.3054 18.2771 27.1318 18.578L24.3568 23.429C24.1834 23.73 23.8226 23.849 23.5104 23.73L20.0555 22.323C19.341 22.883 18.557 23.345 17.7106 23.702L17.1903 27.412C17.1348 27.741 16.8504 28 16.5035 28H10.9535C10.6066 28 10.3221 27.741 10.2666 27.412L9.74633 23.702C8.89997 23.345 8.11604 22.8761 7.40145 22.323L3.94654 23.73C3.63435 23.856 3.27364 23.73 3.10018 23.429L0.325132 18.578C0.151671 18.27 0.228028 17.892 0.491634 17.682L3.41927 15.365C3.36379 14.917 3.32216 14.462 3.32216 14C3.32216 13.538 3.36379 13.083 3.41927 12.635L0.491634 10.318C0.228028 10.101 0.151671 9.72302 0.325132 9.42199L3.10025 4.57099C3.27364 4.26996 3.63442 4.15098 3.94661 4.26996L7.40152 5.67697C8.11604 5.11699 8.90003 4.65499 9.74639 4.29799L10.2667 0.588001C10.3222 0.259022 10.6067 0 10.9535 0H16.5036C16.8504 0 17.1348 0.259022 17.1973 0.588001L17.7177 4.29799C18.564 4.65499 19.3479 5.12394 20.0625 5.67697L23.5174 4.26996C23.8296 4.14396 24.1903 4.26996 24.3638 4.57099L27.1389 9.42199C27.3123 9.72997 27.236 10.108 26.9724 10.318L24.0378 12.635C24.0932 13.083 24.1349 13.538 24.1349 14C24.1349 14.462 24.0932 14.917 24.0378 15.365ZM8.8722 14C8.8722 16.709 11.0437 18.9 13.7285 18.9C16.4134 18.9 18.5848 16.7091 18.5848 14.0001C18.5848 11.2911 16.4134 9.10004 13.7285 9.10004C11.0437 9.10004 8.8722 11.291 8.8722 14Z"
+                        fill="currentColor" />
+                </g>
+            </svg>
+
+        </button>
         <section class="settings__section" id="settings">
-            <button class="settings__button-close" id="closeBtn"></button>
-            <h2 class="settings__title">settings</h2>
+            <div class="settings__header">
+                <h2 class="settings__title">Settings</h2>
+                <button class="settings__button-close" id="closeBtn">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M13.364 2.0502L11.9497 0.635986L6.99999 5.58573L2.05025 0.635986L0.636032 2.0502L5.58578 6.99995L0.636032 11.9497L2.05025 13.3639L6.99999 8.41416L11.9497 13.3639L13.364 11.9497L8.41421 6.99995L13.364 2.0502Z"
+                            fill="currentColor" />
+                    </svg>
+                </button>
 
-            <div id="settings__time">
-                <h2>Time(minutes)</h2>
-                <div class="" id="selectTimePomodoro">
-                    <label for="pomodoroTimeInput">Pomodoro</label>
-                    <input type="number" id="pomodoroTimeInput" value="25">
+            </div>
+
+
+            <div class="settings__time" id="settings__time">
+                <h3 class="settings__time-title">Time(minutes)</h3>
+                <div class="settings__time-content">
+                    <div class="settings__time-select" id="selectTimePomodoro">
+                        <label for="pomodoroTimeInput">pomodoro</label>
+                        <input class="settings__time-input" type="number" id="pomodoroTimeInput" value="25">
+                    </div>
+                    <div class="settings__time-select" id="selectTimeShort">
+                        <label for="shortTimeInput">short break</label>
+                        <input class="settings__time-input" type="number" id="shortTimeInput" value="5">
+                    </div>
+                    <div class="settings__time-select" id="selectTimeLong">
+                        <label for="longTimeInput">short break</label>
+                        <input class="settings__time-input" type="number" id="longTimeInput" value="15">
+                    </div>
                 </div>
-                <div class="" id="selectTimeShort">
-                    <label for="shortTimeInput">Short Break</label>
-                    <input type="number" id="shortTimeInput" value="5">
+            </div>
+
+            <div class="settings__fonts">
+                <h3 class="settings__fonts-title">Font</h3>
+                <div class="settings__fonts-select" id="selectFont">
+                    <button class="kumbhsans settings__fonts-font">Aa</button>
+                    <button class="roboto settings__fonts-font">Aa</button>
+                    <button class="monospace settings__fonts-font">Aa</button>
                 </div>
-                <div class="" id="selectTimeLong">
-                    <label for="longTimeInput">Short Break</label>
-                    <input type="number" id="longTimeInput" value="15">
+            </div>
+
+            <div class="settings__colors">
+                <h3 class="settings__colors-title">Color</h3>
+                <div class="settings__colors-select" id="selectColor">
+                    <button class="settings__colors-color red"></button>
+                    <button class="settings__colors-color  blue"></button>
+                    <button class="settings__colors-color  purple"></button>
                 </div>
             </div>
 
 
-            <div id="selectColor">
-                <h3 class="colors">Color</h3>
-                <button class="red"></button>
-                <button class="blue"></button>
-                <button class="purple"></button>
-            </div>
-            <div id="selectFont">
-                <h3 class="fonts">Font</h3>
-                <button class="kumbhsans"></button>
-                <button class="roboto"></button>
-                <button class="space"></button>
-            </div>
-            <button class="settings__button-apply">Apply</button>
         </section>
+        <button class="settings__button-apply">Apply</button>
 
 
 
