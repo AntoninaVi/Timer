@@ -226,9 +226,6 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
 }
 
 .settings__time-title {
@@ -237,6 +234,10 @@ body {
   letter-spacing: 0.3em;
   text-transform: uppercase;
   margin-bottom: 1.3em;
+}
+
+.settings__time-select {
+  margin-right: 20px;
 }
 
 .settings__time-select label {
@@ -248,7 +249,75 @@ body {
 }
 
 .settings__time-input {
-  margin-top: 0.5em;
+  background: #eff1fa;
+  border-radius: 10px;
+  max-width: 12em;
+  min-width: 10em;
+  width: 100%;
+  border: none;
+  padding: 1em;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+input[type=number] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.settings__time-input-btn-up,
+.settings__time-input-btn {
+  border: none;
+}
+
+.settings__time-input-btn-up {
+  position: relative;
+  top: 1.5em;
+  left: 5rem;
+  width: 14px;
+  height: 10px;
+  background-image: url(img/arrow-up.svg);
+  stroke: #70f3f8;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.settings__time-input-btn {
+  position: relative;
+  top: 2.5em;
+  left: 3.9em;
+  width: 14px;
+  height: 10px;
+  background-image: url(img/arrow-down.svg);
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.settings__time-input button.plus:after {
+  -webkit-transform: translate(-50%, -50%) rotate(90deg);
+          transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.settings__time-inputinput[type=number] {
+  font-family: sans-serif;
+  max-width: 5rem;
+  padding: 0.5rem;
+  border: none;
+  border-width: 0 2px;
+  font-size: 2rem;
+  height: 3rem;
+  font-weight: bold;
+  text-align: center;
+  color: #9be3df;
 }
 
 .settings__fonts {
@@ -372,13 +441,13 @@ body {
 }
 
 .red {
-  background: #F87070;
+  background: #f87070;
 }
 
 .blue {
-  background: #70F3F8;
+  background: #70f3f8;
 }
 
 .purple {
-  background: #D881F8;
+  background: #d881f8;
 }

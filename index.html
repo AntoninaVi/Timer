@@ -69,16 +69,41 @@
                 <div class="settings__time-content">
                     <div class="settings__time-select" id="selectTimePomodoro">
                         <label for="pomodoroTimeInput">pomodoro</label>
-                        <input class="settings__time-input" type="number" id="pomodoroTimeInput" value="25">
+
+                        <button class="settings__time-input-btn-up"
+                            onclick="document.querySelector('#pomodoroTimeInput').stepUp()"></button>
+                            <button class="settings__time-input-btn"
+                            onclick="document.querySelector('#pomodoroTimeInput').stepDown()"></button>
+                        <input class="settings__time-input" type="number" id="pomodoroTimeInput" min="1" max="99"
+                            step="1" value="25" onclick="this.select();">
+                      
                     </div>
+
                     <div class="settings__time-select" id="selectTimeShort">
                         <label for="shortTimeInput">short break</label>
-                        <input class="settings__time-input" type="number" id="shortTimeInput" value="5">
+
+                        <button class="settings__time-input-btn-up"
+                            onclick="document.querySelector('#shortTimeInput').stepUp()"></button>
+                            <button class="settings__time-input-btn"
+                            onclick="document.querySelector('#shortTimeInput').stepDown()"></button>
+                        <input class="settings__time-input" type="number" id="shortTimeInput" min="1" max="99" step="1"
+                            value="5" onclick="this.select();">
+                       
                     </div>
+
                     <div class="settings__time-select" id="selectTimeLong">
-                        <label for="longTimeInput">short break</label>
-                        <input class="settings__time-input" type="number" id="longTimeInput" value="15">
+                        <label for="longTimeInput">long break</label>
+
+                        <button class="settings__time-input-btn-up"
+                            onclick="document.querySelector('#longTimeInput').stepUp()"></button>
+                            <button class="settings__time-input-btn"
+                            onclick="document.querySelector('#longTimeInput').stepDown()"></button>
+                    
+                        <input class="settings__time-input" type="number" id="longTimeInput" min="1" max="99" step="1"
+                            value="15" onclick="this.select();">
+                  
                     </div>
+
                 </div>
             </div>
 
