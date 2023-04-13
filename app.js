@@ -6,42 +6,52 @@ const pauseButton = document.getElementById('pauseButton');
 const pomodoroButton = document.getElementById('pomodoroButton');
 const shortBreakButton = document.getElementById('shortBreakButton');
 const longBreakButton = document.getElementById('longBreakButton');
-const progressCircle = document.getElementById('progress');
+const progressCircle = document.getElementById('progressCircle');
 const mainTime = document.getElementById('main-time')
 
 
 
 
 
+const radius = progressCircle.offsetWidth / 2; //
 
 function startTimer(duration, display) {
   let timer = duration, minutes, seconds;
   countdown = setInterval(function () {
-      if (!pause) {
-        minutes = parseInt(timer / 60, 10);
-        seconds = parseInt(timer % 60, 10);
+    if (!pause) {
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
 
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        display.textContent = minutes + ":" + seconds;
-        // progressCircle.style.clip = `rect(0, ${100 - (timer / duration) * 100}px, 100px, 0)`;
+      display.textContent = minutes + ":" + seconds;
+      // Calculate the progress
+      const progress = (duration - timer) / duration;
+      const angle = (1 - timer) * 360; 
 
-        if (--timer < 0) {
-            clearInterval(countdown);
-            cycleCount++;
-            if (cycleCount % 4 === 0) {
-              startTimer(30 * 60, display); // Start long break
-              // progressCircle.className = 'progress';
-            } else {
-              startTimer(4 * 60, display); // Start short break
-              // progressCircle.className = 'progress';
-            }
-        } else if (timer < 20) {
-          // progressCircle.className = 'progress';
+      const x = Math.sin(angle * Math.PI / 180) * radius;
+      const y = Math.cos(angle * Math.PI / 180) * radius;
+      const clipPath = `circle(${progress * 100}% at ${radius + x}px ${radius + y}px)`;
+
+      progressCircle.style.clipPath = clipPath;
+      progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
+
+      if (--timer < 0) {
+        clearInterval(countdown);
+        cycleCount++;
+        if (cycleCount % 4 === 0) {
+          startTimer(30 * 60, display); //  long break
+
+        } else {
+          startTimer(4 * 60, display); //  short break
+
         }
+      } else if (timer < 20) {
+
       }
-      remainingTime = timer;
+    }
+    remainingTime = timer;
   }, 1000);
 }
 
@@ -73,19 +83,19 @@ const closeBtn = document.getElementById("closeBtn");
 
 
 
-settingsBtn.onclick = function() {
+settingsBtn.onclick = function () {
   modal.style.display = "block";
   applyBtn.style.display = "block"
 
 }
 
 
-closeBtn.onclick = function() {
+closeBtn.onclick = function () {
   modal.style.display = "none";
   applyBtn.style.display = "none";
 }
 
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
@@ -110,7 +120,7 @@ applyBtn.addEventListener('click', () => {
 
   if (pomodoroTime && shortBreakTime && longBreakTime) {
     timerDisplay.textContent = `${pomodoroTime}:00`;
-    settingsModal.style.display='none';
+    settingsModal.style.display = 'none';
   } else {
     alert('Please enter valid input values');
   }
@@ -144,28 +154,23 @@ resetTimer(pomodoroInput.value * 60);
 const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
+// Apply default font to body and all child elements
+document.body.style.fontFamily = defaultFont;
+
 // Change font when clicked
 fontButtons.forEach(button => {
   button.addEventListener('click', () => {
     const font = button.classList[0];
     document.body.style.fontFamily = font;
-    document.querySelectorAll('*').forEach(element => {
-      element.style.fontFamily = font;
-    });
     localStorage.setItem('font', font);
   });
-});
-
-// Save font
-document.body.style.fontFamily = defaultFont;
-document.querySelectorAll('*').forEach(element => {
-  element.style.fontFamily = defaultFont;
 });
 
 // Save font to localStorage when applied
 applyButton.addEventListener('click', () => {
   localStorage.setItem('font', document.body.style.fontFamily);
 });
+
 
 
 
@@ -180,15 +185,15 @@ const blueBtn = document.querySelector(".blue");
 const purpleBtn = document.querySelector(".purple");
 const mainBtns = document.querySelectorAll(".main-button");
 const pauseBtn = document.querySelector(".pause-btn");
-const progress = document.querySelector(".progress");
+
 
 
 function changeColors() {
-// Change bg-color .main-buttons
+  // Change bg-color .main-buttons
   mainBtns.forEach((btn) => {
     btn.style.backgroundColor = "";
     btn.style.color = "";
-  
+
     btn.addEventListener("mouseover", () => {
       btn.style.backgroundColor = this.color;
     });
@@ -203,15 +208,15 @@ function changeColors() {
     // });
     btn.addEventListener("focus", () => {
       btn.style.backgroundColor = this.color;
-      });
-      btn.addEventListener("blur", () => {
+    });
+    btn.addEventListener("blur", () => {
       btn.style.backgroundColor = "";
-      });
+    });
   });
 
 
   pauseBtn.style.color = this.color;
-  // progress.style.color = this.color;
+  progressCircle.style.borderColor = this.color;
 }
 
 

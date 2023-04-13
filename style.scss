@@ -13,7 +13,10 @@ body {
     font-weight: 700;
     color: #d7e0ff;
     background: #1e213f;
+    font-size: 17px;
+    line-height: 17px;
 }
+
 .wrapper {
 }
 .container {
@@ -75,21 +78,34 @@ body {
 }
 .main-time-circle {
     position: absolute;
-    min-width: 26em;
-    height: 26em;
-    border: 2px solid gray;
+    min-width: 27.7em;
+    height: 27.7em;
     border-radius: 50%;
     margin: 0 auto;
-    background: linear-gradient(315deg, #2e325a 0%, #0e112a 100%);
+    background: linear-gradient(315deg, #2E325A 0%, #0E112A 100%);
     box-shadow: -50px -50px 100px #272c5a, 50px 50px 100px #121530;
+    border-width: 0.7em;
+    border-style: solid;
+    border-color: rgb(36, 43, 85);
+}
+.main-time-progress {
+    position: absolute;
+    top: 1rem;
+    left: 0.8em;
+    width: 25em;
+    height: 25em;
+    border-radius: 50%;
+    border: 1em solid #F87070;
+    clip-path: ellipse(50% 50% at 0% 50%, 50% 50% at 100% 50%);
+    transform: rotate(-90deg);
+    transform-origin: center;
 }
 
 .timer {
     position: relative;
+    top: 0.5em;
     z-index: 1;
-    // font-family: "Roboto Slab";
     font-size: 6.25em;
-    // line-height: 8.25em;
     text-align: center;
     color: #d7e0ff;
     margin-bottom: 3rem;
@@ -97,6 +113,8 @@ body {
     border-radius: 50%;
 }
 .pause-btn {
+    position: relative;
+    top: 9em;
     display: block;
     margin: 0 auto;
     // font-family: "Roboto Slab";
@@ -162,9 +180,10 @@ body {
     left: 43em;
     top: -4em;
     z-index: 1;
+    width: 540px;
     max-width: 40em;
-    min-height: 32em;
-    height: 100%;
+    min-height: 29em;
+    height: 490px;
     padding: 2.5em;
     overflow: auto;
     background: #ffffff;
@@ -223,7 +242,7 @@ body {
     border-radius: 10px;
     max-width: 12em;
     min-width: 10em;
-    width: 100%;
+    width: 140px;
     border: none;
     // margin-top: 0.5em;
     padding: 1em;
@@ -245,40 +264,35 @@ input[type="number"]::-webkit-outer-spin-button {
 .settings__time-input-btn-up,
 .settings__time-input-btn {
     border: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 .settings__time-input-btn-up {
     position: relative;
     top: 1.5em;
-    left: 5rem;
+    left: 3rem;
     width: 14px;
     height: 10px;
     background-image: url(img/arrow-up.svg);
-    stroke: #70f3f8;
-    background-repeat: no-repeat;
-    cursor: pointer;
+    padding: 0;
+    margin: 0;
 }
 .settings__time-input-btn {
     position: relative;
     top: 2.5em;
-    left: 3.9em;
+    left: 1.9rem;
     width: 14px;
     height: 10px;
     background-image: url(img/arrow-down.svg);
     background-color: transparent;
     background-repeat: no-repeat;
-    cursor: pointer;
-    &:hover{
-       
+
+    &:hover {
     }
 }
 
-// .settings__time-input-btn {
-//     // position: absolute;
-//     // content: url(img/arrow-down.svg);
-//     // top: 13.2em;
-//     // right: 15.5em;
-// }
 .settings__time-input button.plus:after {
     transform: translate(-50%, -50%) rotate(90deg);
 }
@@ -361,8 +375,8 @@ input[type="number"]::-webkit-outer-spin-button {
 .settings__button-apply {
     display: none;
     position: relative;
-    bottom: 9em;
-    left: 55em;
+    bottom: 6em;
+    left: 58em;
     z-index: 5;
     background: #f87070;
     border-radius: 26.5px;
