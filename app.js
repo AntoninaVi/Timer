@@ -81,23 +81,29 @@ const settingsBtn = document.getElementById("settingsBtn");
 const modal = document.getElementById("settings");
 const closeBtn = document.getElementById("closeBtn");
 
-
+const overlay = document.createElement("div");
+overlay.classList.add("overlay");
+document.body.appendChild(overlay);
 
 settingsBtn.onclick = function () {
   modal.style.display = "block";
   applyBtn.style.display = "block"
-
+  overlay.style.display = "block";
 }
 
 
 closeBtn.onclick = function () {
   modal.style.display = "none";
   applyBtn.style.display = "none";
+  overlay.style.display = "none";
+  // document.body.removeChild(overlay);
 }
 
 window.onclick = function (event) {
   if (event.target == modal) {
+    applyBtn.style.display = "none";
     modal.style.display = "none";
+    overlay.style.display = "none";
   }
 }
 
@@ -117,6 +123,7 @@ applyBtn.addEventListener('click', () => {
   const shortBreakTime = parseInt(shortInput.value);
   const longBreakTime = parseInt(longInput.value);
   applyBtn.style.display = "none";
+  overlay.style.display = "none";
 
   if (pomodoroTime && shortBreakTime && longBreakTime) {
     timerDisplay.textContent = `${pomodoroTime}:00`;
@@ -208,6 +215,7 @@ function changeColors() {
     // });
     btn.addEventListener("focus", () => {
       btn.style.backgroundColor = this.color;
+      
     });
     btn.addEventListener("blur", () => {
       btn.style.backgroundColor = "";
@@ -215,7 +223,7 @@ function changeColors() {
   });
 
 
-  pauseBtn.style.color = this.color;
+  
   progressCircle.style.borderColor = this.color;
 }
 

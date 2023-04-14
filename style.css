@@ -75,7 +75,12 @@ body {
 }
 
 .main-time {
-  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .main-time-circle {
@@ -84,7 +89,7 @@ body {
   height: 27.7em;
   border-radius: 50%;
   margin: 0 auto;
-  background: linear-gradient(315deg, #2E325A 0%, #0E112A 100%);
+  background: linear-gradient(315deg, #2e325a 0%, #0e112a 100%);
   -webkit-box-shadow: -50px -50px 100px #272c5a, 50px 50px 100px #121530;
           box-shadow: -50px -50px 100px #272c5a, 50px 50px 100px #121530;
   border-width: 0.7em;
@@ -99,7 +104,7 @@ body {
   width: 25em;
   height: 25em;
   border-radius: 50%;
-  border: 1em solid #F87070;
+  border: 1em solid #f87070;
   -webkit-clip-path: ellipse(50% 50% at 0% 50%, 50% 50% at 100% 50%);
           clip-path: ellipse(50% 50% at 0% 50%, 50% 50% at 100% 50%);
   -webkit-transform: rotate(-90deg);
@@ -133,6 +138,11 @@ body {
   background-color: transparent;
   border: none;
   cursor: pointer;
+}
+.pause-btn:hover {
+  color: #f87070;
+  -webkit-transition: 0.3;
+  transition: 0.3;
 }
 
 #progress {
@@ -189,9 +199,10 @@ body {
 .settings__section {
   display: none;
   position: relative;
-  left: 43em;
-  top: -4em;
-  z-index: 1;
+  margin-left: auto;
+  margin-right: auto;
+  top: -8em;
+  z-index: 10;
   width: 540px;
   max-width: 40em;
   min-height: 29em;
@@ -202,6 +213,17 @@ body {
   color: #161932;
   border-radius: 0.9em;
   overflow: hidden;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 12, 28, 0.5);
+  z-index: 1;
+  display: none;
 }
 
 .settings__header {
@@ -437,9 +459,10 @@ input[type=number]::-webkit-outer-spin-button {
 .settings__button-apply {
   display: none;
   position: relative;
-  bottom: 6em;
-  left: 58em;
-  z-index: 5;
+  margin-left: auto;
+  margin-right: auto;
+  top: -10em;
+  z-index: 11;
   background: #f87070;
   border-radius: 26.5px;
   mix-blend-mode: normal;
