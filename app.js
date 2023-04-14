@@ -217,21 +217,21 @@ function changeColors() {
     btn.style.color = "";
 
 
-    btn.addEventListener("mouseover", () => {
-      btn.style.backgroundColor = this.color;
-    });
-    btn.addEventListener("mouseout", () => {
-      btn.style.backgroundColor = "";
-    });
-    btn.addEventListener("mousedown", () => {
-      btn.style.backgroundColor = this.color;
-    });
-    // btn.addEventListener("mouseup", () => {
-    //   btn.style.backgroundColor = "";
+    // btn.addEventListener("mouseover", () => {
+    //   btn.style.backgroundColor = this.color;
     // });
-    btn.addEventListener("focus", () => {
+    // btn.addEventListener("mouseout", () => {
+    //   btn.style.backgroundColor = this.color;
+    // });
+    // btn.addEventListener("mousemove", () => {
+    //   btn.style.backgroundColor = this.color;
+    // });
+    btn.addEventListener("mouseup", () => {
       btn.style.backgroundColor = this.color;
     });
+    // // btn.addEventListener("focus", () => {
+    // //   btn.style.backgroundColor = this.color;
+    // // });
     btn.addEventListener("blur", () => {
       btn.style.backgroundColor = "";
     });
@@ -243,14 +243,6 @@ function changeColors() {
   pauseBtn.addEventListener("mouseout", () => {
     pauseBtn.style.color = "";
   });
-
-  pauseBtn.addEventListener("mousedown", () => {
-    pauseBtn.style.color = this.color;
-  });
-  pauseBtn.addEventListener("focus", () => {
-    pauseBtn.style.color = this.color;
-  });
-
 
   progressCircle.style.borderColor = this.color;
 }

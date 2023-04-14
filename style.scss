@@ -15,6 +15,9 @@ body {
     background: #1e213f;
     font-size: 17px;
     line-height: 17px;
+    @media screen and(max-width:580px) {
+        overflow: hidden;
+    }
 }
 
 .wrapper {
@@ -25,6 +28,16 @@ body {
     margin-top: 1em;
     margin-left: auto;
     margin-right: auto;
+    @media screen and(min-width:1280px) {
+        overflow: hidden;
+    }
+    @media screen and(max-width:580px) {
+        margin-top: -1em;
+        transform: scale(0.9);
+    }
+    @media screen and(max-width:380px) {
+        transform: scale(0.7);
+    }
 }
 
 .main-title {
@@ -32,6 +45,7 @@ body {
     line-height: 2.5em;
     text-align: center;
     color: #d7e0ff;
+    margin: 0;
 }
 .main-buttons {
     display: flex;
@@ -43,6 +57,11 @@ body {
     border-radius: 1.9em;
     white-space: nowrap;
     margin-bottom: 2.3em;
+    @media screen and(max-width:280px) {
+        width: 20em;
+        margin-left: -2.3em;
+    }
+
 }
 .main-button {
     width: 120px;
@@ -60,16 +79,16 @@ body {
     cursor: pointer;
     // padding: 1.2em 1.6em;
 }
-.main-button:last-child{
+.main-button:last-child {
     margin-right: 0px;
 }
-.main-button:hover {
-    color: #1e213f;
-    background: #70f3f8;
-    border-radius: 1.6em;
-    opacity: 1;
-    transition: 0.3;
-}
+// .main-button:hover {
+//     color: #1e213f;
+//     background: #70f3f8;
+//     border-radius: 1.6em;
+//     opacity: 1;
+//     transition: 0.3;
+// }
 .main-button:focus {
     color: #1e213f;
     background: #70f3f8;
@@ -80,6 +99,9 @@ body {
 .main-time {
     display: flex;
     justify-content: center;
+    @media screen and(max-width:520px) {
+        transform: scale(0.8);
+    }
 }
 .main-time-circle {
     position: absolute;
@@ -100,7 +122,7 @@ body {
     width: 23em;
     height: 23em;
     border-radius: 50%;
-    border: 0.7em solid #f87070;
+    border: 0.7em solid 70f3f8;
     // clip-path: ellipse(50% 50% at 0% 50%, 50% 50% at 100% 50%);
     transform: rotate(-90deg);
     transform-origin: center;
@@ -122,7 +144,7 @@ body {
     top: 9em;
     display: block;
     margin: 0 auto;
-    // font-family: "Roboto Slab";
+    font-weight: 700;
     font-size: 1em;
     line-height: 1.3em;
     letter-spacing: 0.9em;
@@ -132,7 +154,7 @@ body {
     border: none;
     cursor: pointer;
     &:hover {
-        color: #f87070;
+        color: #70f3f8;
         transition: 0.3;
     }
 }
@@ -170,6 +192,15 @@ body {
     border-radius: 1.6em;
     border: none;
     cursor: pointer;
+    @media screen and(max-width:580px) {
+        top: 22em;
+    }
+    @media screen and(max-width:414px) {
+        top: 17em;
+    }
+    @media screen and(max-width:380px) {
+        top: 12em;
+    }
 }
 .settings__button-main svg path {
     fill: #bdcaf9;
@@ -201,6 +232,23 @@ body {
     color: #161932;
     border-radius: 0.9em;
     overflow: hidden;
+    @media screen and(max-width:580px) {
+        top: -15em;
+        width: 20em;
+        height: 36em;
+    }
+    @media screen and(max-width:380px) {
+        top: -17em;
+        transform: scale(0.9);
+    }
+    @media screen and(max-width:320px) {
+        top: -20em;
+        left: -0.6em;
+        transform: scale(0.7);
+    }
+    @media screen and(max-width:280px) {
+        left: -1.6em;
+    }
 }
 .overlay {
     position: fixed;
@@ -226,6 +274,11 @@ body {
     font-size: 1.75em;
     line-height: 2.1em;
     color: #161932;
+    @media screen and(max-width:580px) {
+        font-size: 20px;
+        line-height: 25px;
+        margin-bottom: 1.2em;
+    }
 }
 .settings__button-close {
     display: block;
@@ -244,6 +297,10 @@ body {
 .settings__time-content {
     display: flex;
     align-items: center;
+    @media screen and(max-width:580px) {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 .settings__time-title {
     @include title-h3;
@@ -251,6 +308,14 @@ body {
 }
 .settings__time-select {
     margin-right: 20px;
+    @media screen and(max-width:580px) {
+        display: grid;
+        grid-template-columns: 1em 2em 7em;
+        align-items: center;
+        gap: 2em;
+        margin-top: 0.5em;
+        margin-right: 0;
+    }
 }
 .settings__time-select label {
     position: relative;
@@ -260,6 +325,10 @@ body {
     color: #1e213f;
     mix-blend-mode: normal;
     opacity: 0.4;
+    @media screen and(max-width:580px) {
+        white-space: nowrap;
+        bottom: 0;
+    }
 }
 .settings__time-input {
     background: #eff1fa;
@@ -275,7 +344,9 @@ body {
     font-size: 14px;
     line-height: 17px;
     box-sizing: border-box;
-
+    @media screen and(max-width:580px) {
+        margin-top: 0;
+    }
 }
 input[type="number"] {
     -webkit-appearance: textfield;
@@ -294,13 +365,17 @@ input[type="number"]::-webkit-outer-spin-button {
     background-repeat: no-repeat;
     cursor: pointer;
 }
-.settings__time-input-buttons{
+.settings__time-input-buttons {
     position: relative;
     left: 6em;
     top: 2.8em;
     display: flex;
     flex-direction: column;
     align-items: baseline;
+    @media screen and(max-width:580px) {
+        left: 10em;
+        top: -0.2em;
+    }
 }
 .settings__time-input-btn-up {
     width: 14px;
@@ -323,7 +398,7 @@ input[type="number"]::-webkit-outer-spin-button {
     transform: translate(-50%, -50%) rotate(90deg);
 }
 
-.settings__time-inputinput[type="number"] {
+.settings__time-input input[type="number"] {
     font-family: sans-serif;
     max-width: 5rem;
     padding: 0.5rem;
@@ -340,10 +415,16 @@ input[type="number"]::-webkit-outer-spin-button {
     align-items: center;
     justify-content: space-between;
     padding: 1.2em 0;
+    @media screen and(max-width:580px) {
+        flex-direction: column;
+    }
 }
 .settings__fonts-title {
     @include title-h3;
     text-transform: uppercase;
+    @media screen and(max-width:580px) {
+        margin-bottom: 1.1em;
+    }
 }
 .settings__fonts-font {
     width: 2.7em;
@@ -370,7 +451,7 @@ input[type="number"]::-webkit-outer-spin-button {
         transition: ease-in 0.3s;
     }
 }
-.settings__fonts-font.selected{
+.settings__fonts-font.selected {
     background: #161932;
     color: #ffffff;
     opacity: 1;
@@ -380,9 +461,15 @@ input[type="number"]::-webkit-outer-spin-button {
     align-items: center;
     justify-content: space-between;
     padding: 1.2em 0;
+    @media screen and(max-width:580px) {
+        flex-direction: column;
+    }
 }
 .settings__colors-title {
     @include title-h3;
+    @media screen and(max-width:580px) {
+        margin-bottom: 1.1em;
+    }
 }
 .settings__colors-color {
     width: 2.5em;
@@ -434,6 +521,20 @@ input[type="number"]::-webkit-outer-spin-button {
     cursor: pointer;
     padding: 1.1em 0;
     width: 8.7em;
+    &:hover {
+        transition: ease-in 0.3s;
+        background: #f58d8d;
+    }
+    @media screen and(max-width:580px) {
+        top: -17em;
+    }
+    @media screen and(max-width:380px) {
+        top: -21em;
+    }
+    @media screen and(max-width:320px) {
+        transform: scale(0.9);
+        top: -27em;
+    }
 }
 .kumbhsans {
     font-family: "Kumbh Sans";
