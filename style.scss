@@ -22,19 +22,18 @@ body {
 .container {
     max-width: 25em;
     width: 100%;
-    margin-top: 5em;
+    margin-top: 1em;
     margin-left: auto;
     margin-right: auto;
 }
 
 .main-title {
-    // font-family: "Kumbh Sans";
     font-size: 2em;
     line-height: 2.5em;
     text-align: center;
     color: #d7e0ff;
 }
-.buttons {
+.main-buttons {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,10 +42,13 @@ body {
     background: #161932;
     border-radius: 1.9em;
     white-space: nowrap;
-    margin-bottom: 2.8em;
+    margin-bottom: 2.3em;
 }
 .main-button {
-    // font-family: "Roboto Slab";
+    width: 120px;
+    height: 48px;
+    margin-right: 10px;
+    font-weight: 700;
     font-size: 0.8em;
     line-height: 1.2em;
     text-align: center;
@@ -56,9 +58,11 @@ body {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    padding: 1.2em 1.6em;
+    // padding: 1.2em 1.6em;
 }
-
+.main-button:last-child{
+    margin-right: 0px;
+}
 .main-button:hover {
     color: #1e213f;
     background: #70f3f8;
@@ -74,7 +78,6 @@ body {
     transition: 0.3;
 }
 .main-time {
-   
     display: flex;
     justify-content: center;
 }
@@ -86,19 +89,19 @@ body {
     margin: 0 auto;
     background: linear-gradient(315deg, #2e325a 0%, #0e112a 100%);
     box-shadow: -50px -50px 100px #272c5a, 50px 50px 100px #121530;
-    border-width: 0.7em;
+    border-width: 1.5em;
     border-style: solid;
     border-color: rgb(36, 43, 85);
 }
 .main-time-progress {
     position: absolute;
-    top: 1rem;
-    left: 0.8em;
-    width: 25em;
-    height: 25em;
+    top: 0.8rem;
+    left: 0.8rem;
+    width: 23em;
+    height: 23em;
     border-radius: 50%;
-    border: 1em solid #f87070;
-    clip-path: ellipse(50% 50% at 0% 50%, 50% 50% at 100% 50%);
+    border: 0.7em solid #f87070;
+    // clip-path: ellipse(50% 50% at 0% 50%, 50% 50% at 100% 50%);
     transform: rotate(-90deg);
     transform-origin: center;
 }
@@ -205,7 +208,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color:rgba(10, 12, 28, 0.5);;
+    background-color: rgba(10, 12, 28, 0.5);
     z-index: 1;
     display: none;
 }
@@ -250,6 +253,8 @@ body {
     margin-right: 20px;
 }
 .settings__time-select label {
+    position: relative;
+    bottom: -3em;
     font-size: 12px;
     line-height: 15px;
     color: #1e213f;
@@ -262,13 +267,15 @@ body {
     max-width: 12em;
     min-width: 10em;
     width: 140px;
+    // height: 48px;
     border: none;
-    // margin-top: 0.5em;
+    margin-top: 8px;
     padding: 1em;
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
     box-sizing: border-box;
+
 }
 input[type="number"] {
     -webkit-appearance: textfield;
@@ -287,21 +294,21 @@ input[type="number"]::-webkit-outer-spin-button {
     background-repeat: no-repeat;
     cursor: pointer;
 }
-
-.settings__time-input-btn-up {
+.settings__time-input-buttons{
     position: relative;
-    top: 1.5em;
-    left: 3rem;
+    left: 6em;
+    top: 2.8em;
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+.settings__time-input-btn-up {
     width: 14px;
     height: 10px;
     background-image: url(img/arrow-up.svg);
-    padding: 0;
-    margin: 0;
+    margin: 9px;
 }
 .settings__time-input-btn {
-    position: relative;
-    top: 2.5em;
-    left: 1.9rem;
     width: 14px;
     height: 10px;
     background-image: url(img/arrow-down.svg);
@@ -363,6 +370,11 @@ input[type="number"]::-webkit-outer-spin-button {
         transition: ease-in 0.3s;
     }
 }
+.settings__fonts-font.selected{
+    background: #161932;
+    color: #ffffff;
+    opacity: 1;
+}
 .settings__colors {
     display: flex;
     align-items: center;
@@ -390,7 +402,20 @@ input[type="number"]::-webkit-outer-spin-button {
         background-position: center;
         transition: ease-in 0.2s;
     }
+    &:active {
+        content: "";
+        background-image: url(/img/check.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: ease-in 0.2s;
+    }
 }
+.settings__colors-color.selected {
+    background-image: url(/img/check.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .settings__button-apply {
     display: none;
     position: relative;

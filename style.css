@@ -13,7 +13,7 @@ body {
 .container {
   max-width: 25em;
   width: 100%;
-  margin-top: 5em;
+  margin-top: 1em;
   margin-left: auto;
   margin-right: auto;
 }
@@ -25,7 +25,7 @@ body {
   color: #d7e0ff;
 }
 
-.buttons {
+.main-buttons {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -40,10 +40,14 @@ body {
   background: #161932;
   border-radius: 1.9em;
   white-space: nowrap;
-  margin-bottom: 2.8em;
+  margin-bottom: 2.3em;
 }
 
 .main-button {
+  width: 120px;
+  height: 48px;
+  margin-right: 10px;
+  font-weight: 700;
   font-size: 0.8em;
   line-height: 1.2em;
   text-align: center;
@@ -53,7 +57,10 @@ body {
   background-color: transparent;
   border: none;
   cursor: pointer;
-  padding: 1.2em 1.6em;
+}
+
+.main-button:last-child {
+  margin-right: 0px;
 }
 
 .main-button:hover {
@@ -92,21 +99,19 @@ body {
   background: linear-gradient(315deg, #2e325a 0%, #0e112a 100%);
   -webkit-box-shadow: -50px -50px 100px #272c5a, 50px 50px 100px #121530;
           box-shadow: -50px -50px 100px #272c5a, 50px 50px 100px #121530;
-  border-width: 0.7em;
+  border-width: 1.5em;
   border-style: solid;
   border-color: rgb(36, 43, 85);
 }
 
 .main-time-progress {
   position: absolute;
-  top: 1rem;
-  left: 0.8em;
-  width: 25em;
-  height: 25em;
+  top: 0.8rem;
+  left: 0.8rem;
+  width: 23em;
+  height: 23em;
   border-radius: 50%;
-  border: 1em solid #f87070;
-  -webkit-clip-path: ellipse(50% 50% at 0% 50%, 50% 50% at 100% 50%);
-          clip-path: ellipse(50% 50% at 0% 50%, 50% 50% at 100% 50%);
+  border: 0.7em solid #f87070;
   -webkit-transform: rotate(-90deg);
           transform: rotate(-90deg);
   -webkit-transform-origin: center;
@@ -287,6 +292,8 @@ body {
 }
 
 .settings__time-select label {
+  position: relative;
+  bottom: -3em;
   font-size: 12px;
   line-height: 15px;
   color: #1e213f;
@@ -301,6 +308,7 @@ body {
   min-width: 10em;
   width: 140px;
   border: none;
+  margin-top: 8px;
   padding: 1em;
   font-weight: 700;
   font-size: 14px;
@@ -328,21 +336,30 @@ input[type=number]::-webkit-outer-spin-button {
   cursor: pointer;
 }
 
-.settings__time-input-btn-up {
+.settings__time-input-buttons {
   position: relative;
-  top: 1.5em;
-  left: 3rem;
+  left: 6em;
+  top: 2.8em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+}
+
+.settings__time-input-btn-up {
   width: 14px;
   height: 10px;
   background-image: url(img/arrow-up.svg);
-  padding: 0;
-  margin: 0;
+  margin: 9px;
 }
 
 .settings__time-input-btn {
-  position: relative;
-  top: 2.5em;
-  left: 1.9rem;
   width: 14px;
   height: 10px;
   background-image: url(img/arrow-down.svg);
@@ -415,6 +432,12 @@ input[type=number]::-webkit-outer-spin-button {
   transition: ease-in 0.3s;
 }
 
+.settings__fonts-font.selected {
+  background: #161932;
+  color: #ffffff;
+  opacity: 1;
+}
+
 .settings__colors {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -454,6 +477,20 @@ input[type=number]::-webkit-outer-spin-button {
   background-position: center;
   -webkit-transition: ease-in 0.2s;
   transition: ease-in 0.2s;
+}
+.settings__colors-color:active {
+  content: "";
+  background-image: url(/img/check.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-transition: ease-in 0.2s;
+  transition: ease-in 0.2s;
+}
+
+.settings__colors-color.selected {
+  background-image: url(/img/check.svg);
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .settings__button-apply {

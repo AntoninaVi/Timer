@@ -26,9 +26,9 @@ function startTimer(duration, display) {
       seconds = seconds < 10 ? "0" + seconds : seconds;
 
       display.textContent = minutes + ":" + seconds;
-      // Calculate the progress
+      // Calculate
       const progress = (duration - timer) / duration;
-      const angle = (1 - timer) * 360; 
+      const angle = (1 - timer) * 360;
 
       const x = Math.sin(angle * Math.PI / 180) * radius;
       const y = Math.cos(angle * Math.PI / 180) * radius;
@@ -37,19 +37,26 @@ function startTimer(duration, display) {
       progressCircle.style.clipPath = clipPath;
       progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
 
-      if (--timer < 0) {
-        clearInterval(countdown);
-        cycleCount++;
-        if (cycleCount % 4 === 0) {
-          startTimer(30 * 60, display); //  long break
 
-        } else {
-          startTimer(4 * 60, display); //  short break
-
-        }
-      } else if (timer < 20) {
-
+      switch (true) {
+        case (--timer < 0):
+          clearInterval(countdown);
+          cycleCount++;
+          if (cycleCount % 4 === 0) {
+            startTimer(30 * 60, display); // long break
+          } else {
+            startTimer(4 * 60, display); // short break
+          }
+          remainingTime = timer;
+          break;
+        case (timer < 20):
+          remainingTime = timer;
+          break;
+        default:
+          remainingTime = timer;
+          break;
       }
+
     }
     remainingTime = timer;
   }, 1000);
@@ -96,7 +103,6 @@ closeBtn.onclick = function () {
   modal.style.display = "none";
   applyBtn.style.display = "none";
   overlay.style.display = "none";
-  // document.body.removeChild(overlay);
 }
 
 window.onclick = function (event) {
@@ -129,7 +135,8 @@ applyBtn.addEventListener('click', () => {
     timerDisplay.textContent = `${pomodoroTime}:00`;
     settingsModal.style.display = 'none';
   } else {
-    alert('Please enter valid input values');
+    alert('Please enter valid characters');
+    applyBtn.style.display = "block";
   }
 });
 
@@ -149,7 +156,7 @@ applyButton.addEventListener('click', () => {
   localStorage.setItem('longBreakTime', longBreakInput.value);
 });
 
-// Reset timer with
+// Reset timer
 pomodoroButton.addEventListener('click', () => resetTimer(pomodoroInput.value * 60));
 shortBreakButton.addEventListener('click', () => resetTimer(shortBreakInput.value * 60));
 longBreakButton.addEventListener('click', () => resetTimer(longBreakInput.value * 60));
@@ -161,7 +168,7 @@ resetTimer(pomodoroInput.value * 60);
 const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
-// Apply default font to body and all child elements
+// Apply default font body 
 document.body.style.fontFamily = defaultFont;
 
 // Change font when clicked
@@ -178,8 +185,16 @@ applyButton.addEventListener('click', () => {
   localStorage.setItem('font', document.body.style.fontFamily);
 });
 
+const fontElements = document.querySelectorAll(".settings__fonts-font")
 
-
+fontElements.forEach(function (fontElement) {
+  fontElement.addEventListener('click', function () {
+    fontElements.forEach(function (font) {
+      font.classList.remove('selected');
+    })
+    this.classList.add('selected')
+  })
+})
 
 // Colors
 const red = "#F87070";
@@ -201,6 +216,7 @@ function changeColors() {
     btn.style.backgroundColor = "";
     btn.style.color = "";
 
+
     btn.addEventListener("mouseover", () => {
       btn.style.backgroundColor = this.color;
     });
@@ -215,15 +231,27 @@ function changeColors() {
     // });
     btn.addEventListener("focus", () => {
       btn.style.backgroundColor = this.color;
-      
     });
     btn.addEventListener("blur", () => {
       btn.style.backgroundColor = "";
     });
   });
 
+  pauseBtn.addEventListener("mouseover", () => {
+    pauseBtn.style.color = this.color;
+  });
+  pauseBtn.addEventListener("mouseout", () => {
+    pauseBtn.style.color = "";
+  });
 
-  
+  pauseBtn.addEventListener("mousedown", () => {
+    pauseBtn.style.color = this.color;
+  });
+  pauseBtn.addEventListener("focus", () => {
+    pauseBtn.style.color = this.color;
+  });
+
+
   progressCircle.style.borderColor = this.color;
 }
 
@@ -244,4 +272,15 @@ purpleBtn.addEventListener("click", function () {
 });
 
 
+//Check symbol
+const colorElements = document.querySelectorAll('.settings__colors-color');
+
+colorElements.forEach(function (colorElement) {
+  colorElement.addEventListener('click', function () {
+    colorElements.forEach(function (color) {
+      color.classList.remove('selected');
+    });
+    this.classList.add('selected');
+  });
+});
 
