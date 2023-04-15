@@ -91,7 +91,7 @@ body {
 // }
 .main-button.active{
     color: #1e213f;
-    background: #70f3f8;
+    // background: #70f3f8;
     border-radius: 1.6em;
     opacity: 1;
     transition: 0.3;
@@ -492,21 +492,21 @@ input[type="number"]::-webkit-outer-spin-button {
     }
     &:focus {
         content: "";
-        background-image: url(/img/check.svg);
+        background-image: url(/mg/check.svg);
         background-repeat: no-repeat;
         background-position: center;
         transition: ease-in 0.2s;
     }
     &:active {
         content: "";
-        background-image: url(/img/check.svg);
+        background-image: url(img/check.svg);
         background-repeat: no-repeat;
         background-position: center;
         transition: ease-in 0.2s;
     }
 }
 .settings__colors-color.selected {
-    background-image: url(/img/check.svg);
+    background-image: url(img/check.svg);
     background-repeat: no-repeat;
     background-position: center;
 }
