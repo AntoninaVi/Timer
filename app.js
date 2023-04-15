@@ -213,41 +213,38 @@ const mainBtns = document.querySelectorAll(".main-button");
 const pauseBtn = document.querySelector(".pause-btn");
 
 
-function changeColors() {
-  // Change bg-color .main-buttons
-  mainBtns.forEach((btn) => {
-    btn.style.backgroundColor = "";
-    btn.style.color = "";
+// function changeColors() {
+//   // Change bg-color .main-buttons
+//   mainBtns.forEach((btn) => {
+//     btn.style.backgroundColor = "";
+//     btn.style.color = "";
 
-    btn.addEventListener("click", () => {
-      btn.classList.add('active');
-    })
+//     btn.addEventListener("click", () => {
+//       btn.classList.add('active');
+//     })
 
-    btn.addEventListener("mouseup", () => {
-      btn.style.backgroundColor = this.color;
-      btn.classList.add('active');
-    });
-    btn.addEventListener("mouseup", () => {
-      btn.style.backgroundColor = this.color;
-      btn.classList.add('active');
-    });
+//     btn.addEventListener("mouseup", () => {
+//       btn.style.backgroundColor = this.color;
+//       btn.classList.add('active');
+//     });
+  
 
-    btn.addEventListener("blur", () => {
-      btn.style.backgroundColor = "";
-      btn.classList.add('active');
-    });
-  });
+//     btn.addEventListener("blur", () => {
+//       btn.style.backgroundColor = "";
+//       btn.classList.add('active');
+//     });
+//   });
 
-  pauseBtn.addEventListener("mouseover", () => {
-    pauseBtn.style.color = this.color;
+//   pauseBtn.addEventListener("mouseover", () => {
+//     pauseBtn.style.color = this.color;
     
-  });
-  pauseBtn.addEventListener("mouseout", () => {
-    pauseBtn.style.color = "";
-  });
+//   });
+//   pauseBtn.addEventListener("mouseout", () => {
+//     pauseBtn.style.color = "";
+//   });
 
-  progressCircle.style.borderColor = this.color;
-}
+//   progressCircle.style.borderColor = this.color;
+// }
 
 
 redBtn.addEventListener("click", function () {
@@ -280,6 +277,7 @@ colorElements.forEach(function (colorElement) {
 
 
 
+//To keep active class until another button clicked
 function removeActiveClass() {
   pomodoroButton.classList.remove('active');
   shortBreakButton.classList.remove('active');
@@ -289,6 +287,7 @@ function removeActiveClass() {
 
 pomodoroButton.addEventListener('click', () => {
   removeActiveClass();
+  
   pomodoroButton.classList.add('active');
   resetTimer(pomodoroInput.value * 60);
 });
