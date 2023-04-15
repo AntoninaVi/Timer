@@ -213,39 +213,42 @@ const mainBtns = document.querySelectorAll(".main-button");
 const pauseBtn = document.querySelector(".pause-btn");
 
 
-// function changeColors() {
-//   // Change bg-color .main-buttons
-//   mainBtns.forEach((btn) => {
-//     btn.style.backgroundColor = "";
-//     btn.style.color = "";
 
-//     btn.addEventListener("click", () => {
-//       btn.classList.add('active');
-//     })
+function changeColors() {
+  // Change bg-color .main-buttons
+  mainBtns.forEach((btn) => {
+    btn.style.backgroundColor = "";
+    btn.style.color = "";
 
-//     btn.addEventListener("mouseup", () => {
-//       btn.style.backgroundColor = this.color;
-//       btn.classList.add('active');
-//     });
-  
+    btn.addEventListener("click", () => {
+      btn.classList.add('active');
+    });
 
-//     btn.addEventListener("blur", () => {
-//       btn.style.backgroundColor = "";
-//       btn.classList.add('active');
-//     });
-//   });
+    btn.addEventListener("mousedown", () => {
+      btn.style.backgroundColor = this.color;
+    });
 
-//   pauseBtn.addEventListener("mouseover", () => {
-//     pauseBtn.style.color = this.color;
+    btn.addEventListener("focus", () => {
+      btn.classList.add('active');
+    });
+
+    btn.addEventListener("blur", () => {
+      // btn.classList.remove('active');
+      btn.style.backgroundColor = "";
+    });
+   
+  });
+
+  pauseBtn.addEventListener("mouseover", () => {
+    pauseBtn.style.color = this.color;
     
-//   });
-//   pauseBtn.addEventListener("mouseout", () => {
-//     pauseBtn.style.color = "";
-//   });
+  });
+  pauseBtn.addEventListener("mouseout", () => {
+    pauseBtn.style.color = "";
+  });
 
-//   progressCircle.style.borderColor = this.color;
-// }
-
+  progressCircle.style.borderColor = this.color;
+}
 
 redBtn.addEventListener("click", function () {
   this.color = red;
@@ -282,6 +285,9 @@ function removeActiveClass() {
   pomodoroButton.classList.remove('active');
   shortBreakButton.classList.remove('active');
   longBreakButton.classList.remove('active');
+  mainBtns.forEach((btn) => {
+    btn.classList.remove('active');
+  });
 }
 
 
