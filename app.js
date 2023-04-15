@@ -80,9 +80,8 @@ function resetTimer(duration) {
   startTimer(duration, timerDisplay);
 }
 
-pomodoroButton.addEventListener('click', () => resetTimer(25 * 60));
-shortBreakButton.addEventListener('click', () => resetTimer(5 * 60));
-longBreakButton.addEventListener('click', () => resetTimer(30 * 60));
+
+
 pauseButton.addEventListener('click', pauseTimer);
 
 
@@ -161,10 +160,10 @@ applyButton.addEventListener('click', () => {
   localStorage.setItem('longBreakTime', longBreakInput.value);
 });
 
-// Reset timer
-pomodoroButton.addEventListener('click', () => resetTimer(pomodoroInput.value * 60));
-shortBreakButton.addEventListener('click', () => resetTimer(shortBreakInput.value * 60));
-longBreakButton.addEventListener('click', () => resetTimer(longBreakInput.value * 60));
+// // Reset timer
+// pomodoroButton.addEventListener('click', () => resetTimer(pomodoroInput.value * 60));
+// shortBreakButton.addEventListener('click', () => resetTimer(shortBreakInput.value * 60));
+// longBreakButton.addEventListener('click', () => resetTimer(longBreakInput.value * 60));
 
 //
 resetTimer(pomodoroInput.value * 60);
@@ -214,28 +213,34 @@ const mainBtns = document.querySelectorAll(".main-button");
 const pauseBtn = document.querySelector(".pause-btn");
 
 
-
 function changeColors() {
   // Change bg-color .main-buttons
   mainBtns.forEach((btn) => {
     btn.style.backgroundColor = "";
     btn.style.color = "";
 
+    btn.addEventListener("click", () => {
+      btn.classList.add('active');
+    })
+
     btn.addEventListener("mouseup", () => {
       btn.style.backgroundColor = this.color;
+      btn.classList.add('active');
+    });
+    btn.addEventListener("mouseup", () => {
+      btn.style.backgroundColor = this.color;
+      btn.classList.add('active');
     });
 
-
-    // // btn.addEventListener("focus", () => {
-    // //   btn.style.backgroundColor = this.color;
-    // // });
     btn.addEventListener("blur", () => {
       btn.style.backgroundColor = "";
+      btn.classList.add('active');
     });
   });
 
   pauseBtn.addEventListener("mouseover", () => {
     pauseBtn.style.color = this.color;
+    
   });
   pauseBtn.addEventListener("mouseout", () => {
     pauseBtn.style.color = "";
@@ -261,7 +266,7 @@ purpleBtn.addEventListener("click", function () {
 });
 
 
-//Check symbol
+//Check-symbol
 const colorElements = document.querySelectorAll('.settings__colors-color');
 
 colorElements.forEach(function (colorElement) {
@@ -273,3 +278,29 @@ colorElements.forEach(function (colorElement) {
   });
 });
 
+
+
+function removeActiveClass() {
+  pomodoroButton.classList.remove('active');
+  shortBreakButton.classList.remove('active');
+  longBreakButton.classList.remove('active');
+}
+
+
+pomodoroButton.addEventListener('click', () => {
+  removeActiveClass();
+  pomodoroButton.classList.add('active');
+  resetTimer(pomodoroInput.value * 60);
+});
+
+shortBreakButton.addEventListener('click', () => {
+  removeActiveClass();
+  shortBreakButton.classList.add('active');
+  resetTimer(shortBreakInput.value * 60);
+});
+
+longBreakButton.addEventListener('click', () => {
+  removeActiveClass();
+  longBreakButton.classList.add('active');
+  resetTimer(longBreakInput.value * 60);
+});

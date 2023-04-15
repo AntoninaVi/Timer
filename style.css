@@ -93,7 +93,7 @@ body {
   margin-right: 0px;
 }
 
-.main-button:active {
+.main-button.active {
   color: #1e213f;
   background: #70f3f8;
   border-radius: 1.6em;
