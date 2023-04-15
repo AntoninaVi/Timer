@@ -93,6 +93,15 @@ body {
   margin-right: 0px;
 }
 
+.main-button:active {
+  color: #1e213f;
+  background: #70f3f8;
+  border-radius: 1.6em;
+  opacity: 1;
+  -webkit-transition: 0.3;
+  transition: 0.3;
+}
+
 .main-button:focus {
   color: #1e213f;
   background: #70f3f8;
@@ -138,7 +147,7 @@ body {
   width: 23em;
   height: 23em;
   border-radius: 50%;
-  border: 0.7em solid 70f3f8;
+  border: 0.6em solid #70f3f8;
   -webkit-transform: rotate(-90deg);
           transform: rotate(-90deg);
   -webkit-transform-origin: center;

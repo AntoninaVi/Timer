@@ -48,6 +48,9 @@ function startTimer(duration, display) {
             startTimer(4 * 60, display); // short break
           }
           remainingTime = timer;
+          const audio = new Audio('audio/snuffbox.mp3');
+          audio.play();
+          pauseTimer()
           break;
         case (timer < 20):
           remainingTime = timer;
@@ -67,6 +70,8 @@ function pauseTimer() {
   pause = !pause;
   pauseButton.textContent = pause ? 'restart' : 'pause';
 }
+
+
 
 function resetTimer(duration) {
   clearInterval(countdown);
@@ -216,19 +221,11 @@ function changeColors() {
     btn.style.backgroundColor = "";
     btn.style.color = "";
 
-
-    // btn.addEventListener("mouseover", () => {
-    //   btn.style.backgroundColor = this.color;
-    // });
-    // btn.addEventListener("mouseout", () => {
-    //   btn.style.backgroundColor = this.color;
-    // });
-    // btn.addEventListener("mousemove", () => {
-    //   btn.style.backgroundColor = this.color;
-    // });
     btn.addEventListener("mouseup", () => {
       btn.style.backgroundColor = this.color;
     });
+
+
     // // btn.addEventListener("focus", () => {
     // //   btn.style.backgroundColor = this.color;
     // // });

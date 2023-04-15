@@ -89,6 +89,13 @@ body {
 //     opacity: 1;
 //     transition: 0.3;
 // }
+.main-button:active{
+    color: #1e213f;
+    background: #70f3f8;
+    border-radius: 1.6em;
+    opacity: 1;
+    transition: 0.3;
+}
 .main-button:focus {
     color: #1e213f;
     background: #70f3f8;
@@ -122,7 +129,7 @@ body {
     width: 23em;
     height: 23em;
     border-radius: 50%;
-    border: 0.7em solid 70f3f8;
+    border: 0.6em solid #70f3f8;
     // clip-path: ellipse(50% 50% at 0% 50%, 50% 50% at 100% 50%);
     transform: rotate(-90deg);
     transform-origin: center;
