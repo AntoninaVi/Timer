@@ -96,6 +96,11 @@ const overlay = document.createElement("div");
 overlay.classList.add("overlay");
 document.body.appendChild(overlay);
 
+const mainButtons = document.querySelectorAll('.main-button');
+// get current font and color from settings
+const currentFont = localStorage.getItem('font') || 'Roboto Slab';
+const currentColor = localStorage.getItem('color') || '#70F3F8';
+
 settingsBtn.onclick = function () {
   modal.style.display = "block";
   applyBtn.style.display = "block"
@@ -116,6 +121,10 @@ window.onclick = function (event) {
     overlay.style.display = "none";
   }
 }
+
+
+// По дефолту на страницу цвет #70F3F8 и шрифт Roboto Slab.
+
 
 
 // Settings
@@ -160,12 +169,7 @@ applyButton.addEventListener('click', () => {
   localStorage.setItem('longBreakTime', longBreakInput.value);
 });
 
-// // Reset timer
-// pomodoroButton.addEventListener('click', () => resetTimer(pomodoroInput.value * 60));
-// shortBreakButton.addEventListener('click', () => resetTimer(shortBreakInput.value * 60));
-// longBreakButton.addEventListener('click', () => resetTimer(longBreakInput.value * 60));
 
-//
 resetTimer(pomodoroInput.value * 60);
 
 // Fonts
@@ -212,7 +216,15 @@ const purpleBtn = document.querySelector(".purple");
 const mainBtns = document.querySelectorAll(".main-button");
 const pauseBtn = document.querySelector(".pause-btn");
 
-
+function setActiveButton(button) {
+  mainBtns.forEach((btn) => {
+    if (btn === button) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
 
 function changeColors() {
   // Change bg-color .main-buttons
@@ -220,8 +232,16 @@ function changeColors() {
     btn.style.backgroundColor = "";
     btn.style.color = "";
 
-    btn.addEventListener("click", () => {
-      btn.classList.add('active');
+
+    const setActiveButton = (activeBtn) => {
+      mainBtns.forEach((btn) => {
+        btn.classList.remove('active');
+      });
+      activeBtn.classList.add('active');
+    }
+
+    btn.addEventListener('click', () => {
+      setActiveButton(btn);
     });
 
     btn.addEventListener("mousedown", () => {
@@ -236,12 +256,11 @@ function changeColors() {
       // btn.classList.remove('active');
       btn.style.backgroundColor = "";
     });
-   
   });
 
   pauseBtn.addEventListener("mouseover", () => {
     pauseBtn.style.color = this.color;
-    
+
   });
   pauseBtn.addEventListener("mouseout", () => {
     pauseBtn.style.color = "";
@@ -293,7 +312,7 @@ function removeActiveClass() {
 
 pomodoroButton.addEventListener('click', () => {
   removeActiveClass();
-  
+
   pomodoroButton.classList.add('active');
   resetTimer(pomodoroInput.value * 60);
 });
