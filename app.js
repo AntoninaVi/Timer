@@ -17,6 +17,7 @@ const radius = progressCircle.offsetWidth / 2; //
 
 function startTimer(duration, display) {
   let timer = duration, minutes, seconds;
+  
   countdown = setInterval(function () {
     if (!pause) {
       minutes = parseInt(timer / 60, 10);
@@ -71,16 +72,12 @@ function pauseTimer() {
   pauseButton.textContent = pause ? 'restart' : 'pause';
 }
 
-
-
 function resetTimer(duration) {
   clearInterval(countdown);
   pause = false;
   pauseButton.textContent = 'pause';
   startTimer(duration, timerDisplay);
 }
-
-
 
 pauseButton.addEventListener('click', pauseTimer);
 
@@ -122,18 +119,12 @@ window.onclick = function (event) {
   }
 }
 
-
-// По дефолту на страницу цвет #70F3F8 и шрифт Roboto Slab.
-
-
-
 // Settings
 const settingsModal = document.getElementById('settings');
 const pomodoroInput = document.querySelector('#pomodoroTimeInput');
 const shortInput = document.querySelector('#shortTimeInput');
 const longInput = document.querySelector('#longTimeInput');
 const applyBtn = document.querySelector('.settings__button-apply');
-
 
 
 // Time settings and close modal when applied
@@ -232,35 +223,34 @@ function changeColors() {
     btn.style.backgroundColor = "";
     btn.style.color = "";
 
-
     const setActiveButton = (activeBtn) => {
       mainBtns.forEach((btn) => {
         btn.classList.remove('active');
       });
       activeBtn.classList.add('active');
     }
-
+    
     btn.addEventListener('click', () => {
       setActiveButton(btn);
     });
-
+    
     btn.addEventListener("mousedown", () => {
       btn.style.backgroundColor = this.color;
     });
-
+    
     btn.addEventListener("focus", () => {
       btn.classList.add('active');
     });
-
+    
     btn.addEventListener("blur", () => {
       // btn.classList.remove('active');
       btn.style.backgroundColor = "";
-    });
+    }); 
   });
 
   pauseBtn.addEventListener("mouseover", () => {
     pauseBtn.style.color = this.color;
-
+    
   });
   pauseBtn.addEventListener("mouseout", () => {
     pauseBtn.style.color = "";
@@ -299,7 +289,7 @@ colorElements.forEach(function (colorElement) {
 
 
 
-//To keep active class until another button clicked
+//To keep active until another button clicked
 function removeActiveClass() {
   pomodoroButton.classList.remove('active');
   shortBreakButton.classList.remove('active');
@@ -312,7 +302,6 @@ function removeActiveClass() {
 
 pomodoroButton.addEventListener('click', () => {
   removeActiveClass();
-
   pomodoroButton.classList.add('active');
   resetTimer(pomodoroInput.value * 60);
 });
