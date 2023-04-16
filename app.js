@@ -17,7 +17,7 @@ const radius = progressCircle.offsetWidth / 2; //
 
 function startTimer(duration, display) {
   let timer = duration, minutes, seconds;
-  
+
   countdown = setInterval(function () {
     if (!pause) {
       minutes = parseInt(timer / 60, 10);
@@ -93,10 +93,12 @@ const overlay = document.createElement("div");
 overlay.classList.add("overlay");
 document.body.appendChild(overlay);
 
-const mainButtons = document.querySelectorAll('.main-button');
+
+
 // get current font and color from settings
 const currentFont = localStorage.getItem('font') || 'Roboto Slab';
 const currentColor = localStorage.getItem('color') || '#70F3F8';
+
 
 settingsBtn.onclick = function () {
   modal.style.display = "block";
@@ -137,15 +139,28 @@ applyBtn.addEventListener('click', () => {
 
   if (pomodoroTime && shortBreakTime && longBreakTime) {
     timerDisplay.textContent = `${pomodoroTime}:00`;
+
+    // Save font and color settings
+    const fontButtons = document.querySelectorAll('.settings__fonts-font');
+    const colorButtons = document.querySelectorAll('.settings__colors-color');
+    const selectedFont = document.querySelector('.settings__fonts-font.active');
+    const selectedColor = document.querySelector('.settings__colors-color.active');
+
+    // Save the selected font and color to localStorage
+    localStorage.setItem('font', currentFont);
+    localStorage.setItem('color', currentColor);
+
     settingsModal.style.display = 'none';
   } else {
     alert('Please enter valid characters');
-    applyBtn.style.display = "block";
   }
 });
 
+
 const shortBreakInput = document.getElementById('shortTimeInput');
 const longBreakInput = document.getElementById('longTimeInput');
+
+
 
 // Load saved values from localStorage
 pomodoroInput.value = localStorage.getItem('pomodoroTime') || pomodoroInput.value;
@@ -158,6 +173,8 @@ applyButton.addEventListener('click', () => {
   localStorage.setItem('pomodoroTime', pomodoroInput.value);
   localStorage.setItem('shortBreakTime', shortBreakInput.value);
   localStorage.setItem('longBreakTime', longBreakInput.value);
+
+
 });
 
 
@@ -229,28 +246,28 @@ function changeColors() {
       });
       activeBtn.classList.add('active');
     }
-    
+
     btn.addEventListener('click', () => {
       setActiveButton(btn);
     });
-    
+
     btn.addEventListener("mousedown", () => {
       btn.style.backgroundColor = this.color;
     });
-    
+
     btn.addEventListener("focus", () => {
       btn.classList.add('active');
     });
-    
+
     btn.addEventListener("blur", () => {
       // btn.classList.remove('active');
       btn.style.backgroundColor = "";
-    }); 
+    });
   });
 
   pauseBtn.addEventListener("mouseover", () => {
     pauseBtn.style.color = this.color;
-    
+
   });
   pauseBtn.addEventListener("mouseout", () => {
     pauseBtn.style.color = "";
@@ -302,6 +319,7 @@ function removeActiveClass() {
 
 pomodoroButton.addEventListener('click', () => {
   removeActiveClass();
+
   pomodoroButton.classList.add('active');
   resetTimer(pomodoroInput.value * 60);
 });
@@ -316,4 +334,46 @@ longBreakButton.addEventListener('click', () => {
   removeActiveClass();
   longBreakButton.classList.add('active');
   resetTimer(longBreakInput.value * 60);
+});
+
+
+
+
+
+
+
+
+
+// Font settings
+fontButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const font = button.classList[0];
+    localStorage.setItem('font', font);
+  });
+});
+
+// Color settings
+const colorButtons = document.querySelectorAll('#selectColor button');
+
+colorButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const color = button.classList[0];
+    localStorage.setItem('color', color);
+  });
+});
+
+// Apply saved settings
+window.addEventListener('load', () => {
+  const savedFont = localStorage.getItem('font');
+  const savedColor = localStorage.getItem('color');
+
+  if (savedFont) {
+    const fontButton = document.querySelector(`.${savedFont}`);
+    fontButton.classList.add('active');
+  }
+
+  if (savedColor) {
+    const colorButton = document.getElementsByClassName(`.${savedColor}`);
+    colorButton.classList.add('active');
+  }
 });
