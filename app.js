@@ -12,9 +12,6 @@ const mainTime = document.getElementById('main-time')
 
 // get current font and color from settings
 let currentFont = localStorage.getItem('font') || 'Roboto Slab';
-let currentColor = localStorage.getItem('color') || '#70F3F8';
-
-
 
 
 
@@ -242,7 +239,7 @@ function changeColors() {
 
     btn.addEventListener('click', () => {
       setActiveButton(btn);
-      saveSettings(this.color);
+
     });
 
     btn.addEventListener("mousedown", () => {
@@ -299,7 +296,7 @@ colorElements.forEach(function (colorElement) {
   });
 });
 
-loadSettings();
+
 
 //To keep active until another button clicked
 function removeActiveClass() {
@@ -331,20 +328,6 @@ longBreakButton.addEventListener('click', () => {
   resetTimer(longBreakInput.value * 60);
 });
 
-function saveSettings(color) {
-  localStorage.setItem('color', color);
-}
-
-function loadSettings() {
-  const color = localStorage.getItem('color');
-  if (color === red) {
-    redBtn.click();
-  } else if (color === blue) {
-    blueBtn.click();
-  } else if (color === purple) {
-    purpleBtn.click();
-  }
-}
 function loadSelectedColor() {
   const selectedColor = localStorage.getItem("selectedColor");
   if (selectedColor) {
