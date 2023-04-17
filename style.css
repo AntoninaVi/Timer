@@ -617,7 +617,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .settings__colors-color:focus {
   content: "";
-  background-image: url(/mg/check.svg);
+  background-image: url(img/check.svg);
   background-repeat: no-repeat;
   background-position: center;
   -webkit-transition: ease-in 0.2s;

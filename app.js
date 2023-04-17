@@ -10,6 +10,11 @@ const progressCircle = document.getElementById('progressCircle');
 const mainTime = document.getElementById('main-time')
 
 
+// get current font and color from settings
+let currentFont = localStorage.getItem('font') || 'Roboto Slab';
+let currentColor = localStorage.getItem('color') || '#70F3F8';
+
+
 
 
 
@@ -49,8 +54,8 @@ function startTimer(duration, display) {
             startTimer(4 * 60, display); // short break
           }
           remainingTime = timer;
-          const audio = new Audio('audio/snuffbox.mp3');
-          audio.play();
+          // const audio = new Audio('audio/snuffbox.mp3');
+          // audio.play();
           pauseTimer()
           break;
         case (timer < 20):
@@ -92,13 +97,6 @@ const closeBtn = document.getElementById("closeBtn");
 const overlay = document.createElement("div");
 overlay.classList.add("overlay");
 document.body.appendChild(overlay);
-
-
-
-// get current font and color from settings
-let currentFont = localStorage.getItem('font') || 'Roboto Slab';
-let currentColor = localStorage.getItem('color') || '#70F3F8';
-
 
 
 settingsBtn.onclick = function () {
@@ -144,10 +142,6 @@ applyBtn.addEventListener('click', () => {
     // Save font and color settings
     const fontButtons = document.querySelectorAll('.settings__fonts-font');
     const colorButtons = document.querySelectorAll('.settings__colors-color');
-
-    // Save the selected font and color to localStorage
-    localStorage.setItem('font', currentFont);
-    localStorage.setItem('color', currentColor);
 
     settingsModal.style.display = 'none';
   } else {
@@ -248,6 +242,7 @@ function changeColors() {
 
     btn.addEventListener('click', () => {
       setActiveButton(btn);
+      saveSettings(this.color);
     });
 
     btn.addEventListener("mousedown", () => {
@@ -293,7 +288,6 @@ purpleBtn.addEventListener("click", function () {
 
 //Check-symbol
 const colorElements = document.querySelectorAll('.settings__colors-color');
-
 colorElements.forEach(function (colorElement) {
   colorElement.addEventListener('click', function () {
     colorElements.forEach(function (color) {
@@ -303,7 +297,7 @@ colorElements.forEach(function (colorElement) {
   });
 });
 
-
+loadSettings();
 
 //To keep active until another button clicked
 function removeActiveClass() {
@@ -335,18 +329,17 @@ longBreakButton.addEventListener('click', () => {
   resetTimer(longBreakInput.value * 60);
 });
 
+function saveSettings(color) {
+  localStorage.setItem('color', color);
+}
 
-
-
-
-// // Color settings
-// const colorButtons = document.querySelectorAll('.settings__colors-color');
-
-// colorButtons.forEach(button => {
-//   button.addEventListener('click', () => {
-//     const color = button.classList[0];
-//     localStorage.setItem('color', color);
-//   });
-// });
-
-
+function loadSettings() {
+  const color = localStorage.getItem('color');
+  if (color === red) {
+    redBtn.click();
+  } else if (color === blue) {
+    blueBtn.click();
+  } else if (color === purple) {
+    purpleBtn.click();
+  }
+}
