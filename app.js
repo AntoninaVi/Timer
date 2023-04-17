@@ -242,7 +242,7 @@ function changeColors() {
     }
 
     btn.addEventListener('click', () => {
-      setActiveButton(btn);
+      // setActiveButton(btn);
 
     });
 
@@ -255,7 +255,7 @@ function changeColors() {
     });
 
     btn.addEventListener("blur", () => {
-      // btn.classList.remove('active');
+      btn.classList.remove('active');
       btn.style.backgroundColor = "";
     });
   });
