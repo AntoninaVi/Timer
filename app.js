@@ -217,33 +217,25 @@ const purpleBtn = document.querySelector(".purple");
 const mainBtns = document.querySelectorAll(".main-button");
 const pauseBtn = document.querySelector(".pause-btn");
 
-function setActiveButton(button) {
-  mainBtns.forEach((btn) => {
-    if (btn === button) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
-  });
-}
-
 function changeColors() {
 
+  function setActiveButton(button) {
+    mainBtns.forEach((btn) => {
+      if (btn === button) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+  
   // Change bg-color .main-buttons
   mainBtns.forEach((btn) => {
     btn.style.backgroundColor = "";
     btn.style.color = "";
 
-    const setActiveButton = (activeBtn) => {
-      mainBtns.forEach((btn) => {
-        btn.classList.remove('active');
-      });
-      activeBtn.classList.add('active');
-    }
-
     btn.addEventListener('click', () => {
-      // setActiveButton(btn);
-
+      setActiveButton(btn);
     });
 
     btn.addEventListener("mousedown", () => {
@@ -251,7 +243,7 @@ function changeColors() {
     });
 
     btn.addEventListener("focus", () => {
-      btn.classList.add('active');
+      setActiveButton(btn);
     });
 
     btn.addEventListener("blur", () => {
@@ -270,6 +262,7 @@ function changeColors() {
 
   progressCircle.style.borderColor = this.color;
 }
+
 
 redBtn.addEventListener("click", function () {
   this.color = red;
