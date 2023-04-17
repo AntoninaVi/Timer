@@ -10,10 +10,6 @@ const progressCircle = document.getElementById('progressCircle');
 const mainTime = document.getElementById('main-time')
 
 
-// get current font and color from settings
-let currentFont = localStorage.getItem('font') || 'Roboto Slab';
-
-
 
 const radius = progressCircle.offsetWidth / 2; //
 
@@ -51,8 +47,8 @@ function startTimer(duration, display) {
             startTimer(4 * 60, display); // short break
           }
           remainingTime = timer;
-          // const audio = new Audio('audio/snuffbox.mp3');
-          // audio.play();
+          const audio = new Audio('audio/snuffbox.mp3');
+          audio.play();
           pauseTimer()
           break;
         case (timer < 20):
@@ -165,7 +161,6 @@ applyButton.addEventListener('click', () => {
   localStorage.setItem('longBreakTime', longBreakInput.value);
 
 });
-
 
 resetTimer(pomodoroInput.value * 60);
 
