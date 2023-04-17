@@ -96,8 +96,9 @@ document.body.appendChild(overlay);
 
 
 // get current font and color from settings
-const currentFont = localStorage.getItem('font') || 'Roboto Slab';
-const currentColor = localStorage.getItem('color') || '#70F3F8';
+let currentFont = localStorage.getItem('font') || 'Roboto Slab';
+let currentColor = localStorage.getItem('color') || '#70F3F8';
+
 
 
 settingsBtn.onclick = function () {
@@ -143,8 +144,6 @@ applyBtn.addEventListener('click', () => {
     // Save font and color settings
     const fontButtons = document.querySelectorAll('.settings__fonts-font');
     const colorButtons = document.querySelectorAll('.settings__colors-color');
-    const selectedFont = document.querySelector('.settings__fonts-font.active');
-    const selectedColor = document.querySelector('.settings__colors-color.active');
 
     // Save the selected font and color to localStorage
     localStorage.setItem('font', currentFont);
@@ -152,7 +151,7 @@ applyBtn.addEventListener('click', () => {
 
     settingsModal.style.display = 'none';
   } else {
-    alert('Please enter valid characters');
+    alert('Please enter valid numbers');
   }
 });
 
@@ -173,7 +172,6 @@ applyButton.addEventListener('click', () => {
   localStorage.setItem('pomodoroTime', pomodoroInput.value);
   localStorage.setItem('shortBreakTime', shortBreakInput.value);
   localStorage.setItem('longBreakTime', longBreakInput.value);
-
 
 });
 
@@ -235,6 +233,7 @@ function setActiveButton(button) {
 }
 
 function changeColors() {
+
   // Change bg-color .main-buttons
   mainBtns.forEach((btn) => {
     btn.style.backgroundColor = "";
@@ -340,40 +339,14 @@ longBreakButton.addEventListener('click', () => {
 
 
 
+// // Color settings
+// const colorButtons = document.querySelectorAll('.settings__colors-color');
+
+// colorButtons.forEach(button => {
+//   button.addEventListener('click', () => {
+//     const color = button.classList[0];
+//     localStorage.setItem('color', color);
+//   });
+// });
 
 
-
-
-// Font settings
-fontButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const font = button.classList[0];
-    localStorage.setItem('font', font);
-  });
-});
-
-// Color settings
-const colorButtons = document.querySelectorAll('#selectColor button');
-
-colorButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const color = button.classList[0];
-    localStorage.setItem('color', color);
-  });
-});
-
-// Apply saved settings
-window.addEventListener('load', () => {
-  const savedFont = localStorage.getItem('font');
-  const savedColor = localStorage.getItem('color');
-
-  if (savedFont) {
-    const fontButton = document.querySelector(`.${savedFont}`);
-    fontButton.classList.add('active');
-  }
-
-  if (savedColor) {
-    const colorButton = document.getElementsByClassName(`.${savedColor}`);
-    colorButton.classList.add('active');
-  }
-});
