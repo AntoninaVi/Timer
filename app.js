@@ -173,6 +173,8 @@ resetTimer(pomodoroInput.value * 60);
 const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
+
+
 // Apply default font body 
 document.body.style.fontFamily = defaultFont;
 
@@ -192,14 +194,21 @@ applyButton.addEventListener('click', () => {
 
 const fontElements = document.querySelectorAll(".settings__fonts-font")
 
-fontElements.forEach(function (fontElement) {
+fontElements.forEach(fontElement => {
+  if (fontElement.classList.contains(defaultFont)) {
+    fontElement.classList.add('selected');
+  }
+});
+
+fontElements.forEach(fontElement => {
   fontElement.addEventListener('click', function () {
-    fontElements.forEach(function (font) {
+    fontElements.forEach(font => {
       font.classList.remove('selected');
-    })
-    this.classList.add('selected')
-  })
-})
+    });
+    this.classList.add('selected');
+    localStorage.setItem('font', this.classList[1]);
+  });
+});
 
 // Colors
 const red = "#F87070";
@@ -328,6 +337,7 @@ longBreakButton.addEventListener('click', () => {
   resetTimer(longBreakInput.value * 60);
 });
 
+//localStorage
 function loadSelectedColor() {
   const selectedColor = localStorage.getItem("selectedColor");
   if (selectedColor) {
