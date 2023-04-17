@@ -272,19 +272,21 @@ function changeColors() {
 
 redBtn.addEventListener("click", function () {
   this.color = red;
+  localStorage.setItem("selectedColor", red);
   changeColors.call(this);
 });
 
 blueBtn.addEventListener("click", function () {
   this.color = blue;
+  localStorage.setItem("selectedColor", blue);
   changeColors.call(this);
 });
 
 purpleBtn.addEventListener("click", function () {
   this.color = purple;
+  localStorage.setItem("selectedColor", purple);
   changeColors.call(this);
 });
-
 
 //Check-symbol
 const colorElements = document.querySelectorAll('.settings__colors-color');
@@ -343,3 +345,21 @@ function loadSettings() {
     purpleBtn.click();
   }
 }
+function loadSelectedColor() {
+  const selectedColor = localStorage.getItem("selectedColor");
+  if (selectedColor) {
+    switch (selectedColor) {
+      case red:
+        redBtn.click();
+        break;
+      case blue:
+        blueBtn.click();
+        break;
+      case purple:
+        purpleBtn.click();
+        break;
+    }
+  }
+}
+
+loadSelectedColor();
