@@ -93,15 +93,6 @@ body {
   margin-right: 0px;
 }
 
-.main-button.active {
-  color: #1e213f;
-  background: #70f3f8;
-  border-radius: 1.6em;
-  opacity: 1;
-  -webkit-transition: 0.3;
-  transition: 0.3;
-}
-
 .main-time {
   display: -webkit-box;
   display: -ms-flexbox;

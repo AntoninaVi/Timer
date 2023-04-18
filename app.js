@@ -23,7 +23,8 @@ function startTimer(duration, display) {
 
       minutes = minutes < 10 ? "0" + minutes : minutes;
       seconds = seconds < 10 ? "0" + seconds : seconds;
-
+      localStorage.setItem('minutes', minutes);
+      localStorage.setItem('seconds', seconds);
       display.textContent = minutes + ":" + seconds;
       // Calculate
       const progress = (duration - timer) / duration;
@@ -63,6 +64,7 @@ function startTimer(duration, display) {
     remainingTime = timer;
   }, 1000);
 }
+
 
 
 function pauseTimer() {
@@ -147,12 +149,6 @@ const shortBreakInput = document.getElementById('shortTimeInput');
 const longBreakInput = document.getElementById('longTimeInput');
 
 
-
-// Load saved values from localStorage
-pomodoroInput.value = localStorage.getItem('pomodoroTime') || pomodoroInput.value;
-shortBreakInput.value = localStorage.getItem('shortBreakTime') || shortBreakInput.value;
-longBreakInput.value = localStorage.getItem('longBreakTime') || longBreakInput.value;
-
 // Save to localStorage
 const applyButton = document.querySelector('.settings__button-apply');
 applyButton.addEventListener('click', () => {
@@ -161,6 +157,11 @@ applyButton.addEventListener('click', () => {
   localStorage.setItem('longBreakTime', longBreakInput.value);
 
 });
+
+// Load saved values from localStorage
+pomodoroInput.value = localStorage.getItem('pomodoroTime') || pomodoroInput.value;
+shortBreakInput.value = localStorage.getItem('shortBreakTime') || shortBreakInput.value;
+longBreakInput.value = localStorage.getItem('longBreakTime') || longBreakInput.value;
 
 resetTimer(pomodoroInput.value * 60);
 
@@ -219,22 +220,29 @@ const pauseBtn = document.querySelector(".pause-btn");
 
 function changeColors() {
 
-  function setActiveButton(button) {
-    mainBtns.forEach((btn) => {
-      if (btn === button) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
-    });
+  function setActiveButton(btn) {
+    const activeBtn = document.querySelector('.main-button.active');
+    if (activeBtn) {
+      activeBtn.classList.remove('active');
+    }
+    btn.classList.add('active');
+    btn.style.color = '#1e213f';
+    btn.style.borderRadius = '1.6em';
+    btn.style.opacity = '1';
+    btn.style.transition = '0.3s';
   }
-  
+
+
   // Change bg-color .main-buttons
   mainBtns.forEach((btn) => {
     btn.style.backgroundColor = "";
     btn.style.color = "";
 
     btn.addEventListener('click', () => {
+      mainBtns.forEach((btn) => btn.classList.remove('active'));
+      btn.classList.add('active');
+      btn.style.backgroundColor = this.color;
+      localStorage.setItem('activeButtonId', btn.id);
       setActiveButton(btn);
     });
 
@@ -249,6 +257,7 @@ function changeColors() {
     btn.addEventListener("blur", () => {
       btn.classList.remove('active');
       btn.style.backgroundColor = "";
+      btn.style.color = "";
     });
   });
 
@@ -262,6 +271,7 @@ function changeColors() {
 
   progressCircle.style.borderColor = this.color;
 }
+
 
 
 redBtn.addEventListener("click", function () {
@@ -344,3 +354,12 @@ function loadSelectedColor() {
 }
 
 loadSelectedColor();
+
+// Load active button from localStorage
+const activeButtonId = localStorage.getItem('activeButtonId');
+if (activeButtonId) {
+  const activeButton = document.getElementById(activeButtonId);
+  if (activeButton) {
+    activeButton.click();
+  }
+}
