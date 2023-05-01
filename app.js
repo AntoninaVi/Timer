@@ -9,6 +9,15 @@ const longBreakButton = document.getElementById('longBreakButton');
 const progressCircle = document.getElementById('progressCircle');
 const mainTime = document.getElementById('main-time')
 
+const red = "#F87070";
+const blue = "#70F3F8";
+const purple = "#D881F8";
+
+const redBtn = document.querySelector(".red");
+const blueBtn = document.querySelector(".blue");
+const purpleBtn = document.querySelector(".purple");
+const mainBtns = document.querySelectorAll(".main-button");
+const pauseBtn = document.querySelector(".pause-btn");
 
 
 const radius = progressCircle.offsetWidth / 2; //
@@ -70,14 +79,19 @@ function startTimer(duration, display) {
 function pauseTimer() {
   pause = !pause;
   pauseButton.textContent = pause ? 'restart' : 'pause';
+  if (!pause) {
+    startTimer(remainingTime, timerDisplay);
+  }
 }
+
 
 function resetTimer(duration) {
   clearInterval(countdown);
   pause = false;
   pauseButton.textContent = 'pause';
-  startTimer(duration, timerDisplay);
+  remainingTime = duration; 
 }
+
 
 pauseButton.addEventListener('click', pauseTimer);
 
@@ -207,16 +221,6 @@ fontElements.forEach(fontElement => {
 });
 
 // Colors
-const red = "#F87070";
-const blue = "#70F3F8";
-const purple = "#D881F8";
-
-
-const redBtn = document.querySelector(".red");
-const blueBtn = document.querySelector(".blue");
-const purpleBtn = document.querySelector(".purple");
-const mainBtns = document.querySelectorAll(".main-button");
-const pauseBtn = document.querySelector(".pause-btn");
 
 function changeColors() {
 
@@ -232,20 +236,23 @@ function changeColors() {
     btn.style.transition = '0.3s';
   }
 
-
   // Change bg-color .main-buttons
   mainBtns.forEach((btn) => {
     btn.style.backgroundColor = "";
     btn.style.color = "";
 
     btn.addEventListener('click', () => {
+      
       mainBtns.forEach((btn) => btn.classList.remove('active'));
       btn.classList.add('active');
       btn.style.backgroundColor = this.color;
       localStorage.setItem('activeButtonId', btn.id);
       setActiveButton(btn);
+      if (btn !== activeButtonId && btn.classList.contains('active')) {
+        btn.classList.remove('active');
+      }
     });
-
+   
     btn.addEventListener("mousedown", () => {
       btn.style.backgroundColor = this.color;
     });
@@ -335,6 +342,7 @@ longBreakButton.addEventListener('click', () => {
   resetTimer(longBreakInput.value * 60);
 });
 
+
 //localStorage
 function loadSelectedColor() {
   const selectedColor = localStorage.getItem("selectedColor");
@@ -351,7 +359,7 @@ function loadSelectedColor() {
         break;
     }
   }
-}
+};
 
 loadSelectedColor();
 
@@ -362,4 +370,5 @@ if (activeButtonId) {
   if (activeButton) {
     activeButton.click();
   }
-}
+};
+
