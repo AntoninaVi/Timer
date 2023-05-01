@@ -1,5 +1,5 @@
 let countdown, pause = false;
-let remainingTime = 0;
+let remainingTime = localStorage.getItem('remainingTime') || 0;
 let cycleCount = 0;
 const timerDisplay = document.getElementById('timer');
 const pauseButton = document.getElementById('pauseButton');
@@ -24,6 +24,11 @@ const radius = progressCircle.offsetWidth / 2; //
 
 function startTimer(duration, display) {
   let timer = duration, minutes, seconds;
+
+  if (remainingTime > 0) { // if remaining time is set
+    timer = remainingTime;
+    remainingTime = 0;
+  }
 
   countdown = setInterval(function () {
     if (!pause) {
@@ -73,6 +78,12 @@ function startTimer(duration, display) {
     remainingTime = timer;
   }, 1000);
 }
+// stored time
+if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
+  const minutes = localStorage.getItem('minutes');
+  const seconds = localStorage.getItem('seconds');
+  timerDisplay.textContent = `${minutes}:${seconds}`;
+}
 
 
 
@@ -89,7 +100,7 @@ function resetTimer(duration) {
   clearInterval(countdown);
   pause = false;
   pauseButton.textContent = 'pause';
-  remainingTime = duration; 
+  remainingTime = duration; // set remaining time 
 }
 
 
@@ -242,7 +253,7 @@ function changeColors() {
     btn.style.color = "";
 
     btn.addEventListener('click', () => {
-      
+
       mainBtns.forEach((btn) => btn.classList.remove('active'));
       btn.classList.add('active');
       btn.style.backgroundColor = this.color;
@@ -252,7 +263,7 @@ function changeColors() {
         btn.classList.remove('active');
       }
     });
-   
+
     btn.addEventListener("mousedown", () => {
       btn.style.backgroundColor = this.color;
     });
