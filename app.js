@@ -17,7 +17,7 @@ const redBtn = document.querySelector(".red");
 const blueBtn = document.querySelector(".blue");
 const purpleBtn = document.querySelector(".purple");
 const mainBtns = document.querySelectorAll(".main-button");
-const pauseBtn = document.querySelector(".pause-btn");
+
 
 
 const radius = progressCircle.offsetWidth / 2; //
@@ -78,7 +78,7 @@ function startTimer(duration, display) {
     remainingTime = timer;
   }, 1000);
 }
-// stored time
+// stored 
 if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
   const minutes = localStorage.getItem('minutes');
   const seconds = localStorage.getItem('seconds');
@@ -89,7 +89,7 @@ if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
 
 function pauseTimer() {
   pause = !pause;
-  pauseButton.textContent = pause ? 'restart' : 'pause';
+  pauseButton.textContent = pause ? 'start' : 'pause';
   if (!pause) {
     startTimer(remainingTime, timerDisplay);
   }
@@ -99,7 +99,7 @@ function pauseTimer() {
 function resetTimer(duration) {
   clearInterval(countdown);
   pause = false;
-  pauseButton.textContent = 'pause';
+  pauseButton.textContent = 'start';
   remainingTime = duration; // set remaining time 
 }
 
@@ -279,12 +279,12 @@ function changeColors() {
     });
   });
 
-  pauseBtn.addEventListener("mouseover", () => {
-    pauseBtn.style.color = this.color;
+  pauseButton.addEventListener("mouseover", () => {
+    pauseButton.style.color = this.color;
 
   });
-  pauseBtn.addEventListener("mouseout", () => {
-    pauseBtn.style.color = "";
+  pauseButton.addEventListener("mouseout", () => {
+    pauseButton.style.color = "";
   });
 
   progressCircle.style.borderColor = this.color;
@@ -336,22 +336,26 @@ function removeActiveClass() {
 
 pomodoroButton.addEventListener('click', () => {
   removeActiveClass();
-
   pomodoroButton.classList.add('active');
   resetTimer(pomodoroInput.value * 60);
+  timer.textContent = pomodoroInput.value + ':00'
 });
+
 
 shortBreakButton.addEventListener('click', () => {
   removeActiveClass();
   shortBreakButton.classList.add('active');
   resetTimer(shortBreakInput.value * 60);
+  timer.textContent = shortBreakInput.value + ':00'
 });
 
 longBreakButton.addEventListener('click', () => {
   removeActiveClass();
   longBreakButton.classList.add('active');
   resetTimer(longBreakInput.value * 60);
+  timer.textContent = longBreakInput.value + ':00'
 });
+
 
 
 //localStorage
