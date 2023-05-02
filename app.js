@@ -1,5 +1,5 @@
 let countdown, pause = false;
-let remainingTime = localStorage.getItem('remainingTime') || 0;
+let remainingTime = 0;
 let cycleCount = 0;
 const timerDisplay = document.getElementById('timer');
 const pauseButton = document.getElementById('pauseButton');
@@ -18,16 +18,16 @@ const blueBtn = document.querySelector(".blue");
 const purpleBtn = document.querySelector(".purple");
 const mainBtns = document.querySelectorAll(".main-button");
 
-
-
 const radius = progressCircle.offsetWidth / 2; //
+
 
 function startTimer(duration, display) {
   let timer = duration, minutes, seconds;
 
-  if (remainingTime > 0) { // if remaining time is set
-    timer = remainingTime;
-    remainingTime = 0;
+  if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
+    timer = parseInt(localStorage.getItem('minutes'), 10) * 60 + parseInt(localStorage.getItem('seconds'), 10);
+  } else {
+    timer = duration;
   }
 
   countdown = setInterval(function () {
@@ -39,6 +39,7 @@ function startTimer(duration, display) {
       seconds = seconds < 10 ? "0" + seconds : seconds;
       localStorage.setItem('minutes', minutes);
       localStorage.setItem('seconds', seconds);
+
       display.textContent = minutes + ":" + seconds;
       // Calculate
       const progress = (duration - timer) / duration;
@@ -84,7 +85,6 @@ if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
   const seconds = localStorage.getItem('seconds');
   timerDisplay.textContent = `${minutes}:${seconds}`;
 }
-
 
 
 function pauseTimer() {
