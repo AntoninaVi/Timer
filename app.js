@@ -20,15 +20,15 @@ const mainBtns = document.querySelectorAll(".main-button");
 
 const radius = progressCircle.offsetWidth / 2; //
 
-
+let duration = 25 * 60;
 function startTimer(duration, display) {
   let timer = duration, minutes, seconds;
 
-  if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
-    timer = parseInt(localStorage.getItem('minutes'), 10) * 60 + parseInt(localStorage.getItem('seconds'), 10);
-  } else {
-    timer = duration;
-  }
+  // if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
+  //   timer = parseInt(localStorage.getItem('minutes'), 10) * 60 + parseInt(localStorage.getItem('seconds'), 10);
+  // } else {
+  //   timer = duration;
+  // }
 
   countdown = setInterval(function () {
     if (!pause) {
@@ -347,6 +347,7 @@ shortBreakButton.addEventListener('click', () => {
   shortBreakButton.classList.add('active');
   resetTimer(shortBreakInput.value * 60);
   timer.textContent = shortBreakInput.value + ':00'
+  
 });
 
 longBreakButton.addEventListener('click', () => {
@@ -386,4 +387,3 @@ if (activeButtonId) {
     activeButton.click();
   }
 };
-
