@@ -20,15 +20,25 @@ const mainBtns = document.querySelectorAll(".main-button");
 
 const radius = progressCircle.offsetWidth / 2; //
 
-let duration = 25 * 60;
+
+
+
 function startTimer(duration, display) {
   let timer = duration, minutes, seconds;
+  
 
-  // if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
-  //   timer = parseInt(localStorage.getItem('minutes'), 10) * 60 + parseInt(localStorage.getItem('seconds'), 10);
-  // } else {
-  //   timer = duration;
-  // }
+  if (localStorage.getItem('currentTimer') === 'saved') {
+    if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
+      minutes = localStorage.getItem('minutes');
+      seconds = localStorage.getItem('seconds');
+      display.textContent = `${minutes}:${seconds}`;
+
+      timer = parseInt(minutes, 10) * 60 + parseInt(seconds, 10);
+    }
+  } else {
+    localStorage.removeItem('minutes');
+    localStorage.removeItem('seconds');
+  }
 
   countdown = setInterval(function () {
     if (!pause) {
@@ -77,14 +87,17 @@ function startTimer(duration, display) {
 
     }
     remainingTime = timer;
+    localStorage.setItem('remainingTime', timer);
   }, 1000);
 }
+
 // stored 
 if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
   const minutes = localStorage.getItem('minutes');
   const seconds = localStorage.getItem('seconds');
   timerDisplay.textContent = `${minutes}:${seconds}`;
 }
+
 
 
 function pauseTimer() {
@@ -95,13 +108,14 @@ function pauseTimer() {
   }
 }
 
-
 function resetTimer(duration) {
   clearInterval(countdown);
   pause = false;
   pauseButton.textContent = 'start';
-  remainingTime = duration; // set remaining time 
+  remainingTime = duration;
+  localStorage.removeItem('remainingTime');
 }
+
 
 
 pauseButton.addEventListener('click', pauseTimer);
@@ -347,7 +361,7 @@ shortBreakButton.addEventListener('click', () => {
   shortBreakButton.classList.add('active');
   resetTimer(shortBreakInput.value * 60);
   timer.textContent = shortBreakInput.value + ':00'
-  
+
 });
 
 longBreakButton.addEventListener('click', () => {
