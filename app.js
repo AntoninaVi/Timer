@@ -1,5 +1,7 @@
 let countdown, pause = false;
 let remainingTime = 0;
+let minutes = 0;
+let seconds = 0;
 let cycleCount = 0;
 const timerDisplay = document.getElementById('timer');
 const pauseButton = document.getElementById('pauseButton');
@@ -26,19 +28,16 @@ const radius = progressCircle.offsetWidth / 2; //
 function startTimer(duration, display) {
   let timer = duration, minutes, seconds;
   
-
-  if (localStorage.getItem('currentTimer') === 'saved') {
-    if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
-      minutes = localStorage.getItem('minutes');
-      seconds = localStorage.getItem('seconds');
-      display.textContent = `${minutes}:${seconds}`;
-
-      timer = parseInt(minutes, 10) * 60 + parseInt(seconds, 10);
-    }
-  } else {
-    localStorage.removeItem('minutes');
-    localStorage.removeItem('seconds');
+  if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
+    minutes = parseInt(localStorage.getItem('minutes'), 10);
+    seconds = parseInt(localStorage.getItem('seconds'), 10);
+    display.textContent = `${minutes}:${seconds}`;
+    timer = minutes * 60 + seconds; 
   }
+else {
+  localStorage.removeItem('minutes');
+  localStorage.removeItem('seconds');
+}
 
   countdown = setInterval(function () {
     if (!pause) {
@@ -86,7 +85,8 @@ function startTimer(duration, display) {
       }
 
     }
-    remainingTime = timer;
+    minutes = parseInt(timer / 60, 10);
+    seconds = parseInt(timer % 60, 10);
     localStorage.setItem('remainingTime', timer);
   }, 1000);
 }
@@ -105,6 +105,7 @@ function pauseTimer() {
   pauseButton.textContent = pause ? 'start' : 'pause';
   if (!pause) {
     startTimer(remainingTime, timerDisplay);
+    console.log(remainingTime)
   }
 }
 
@@ -353,6 +354,8 @@ pomodoroButton.addEventListener('click', () => {
   pomodoroButton.classList.add('active');
   resetTimer(pomodoroInput.value * 60);
   timer.textContent = pomodoroInput.value + ':00'
+  localStorage.removeItem('minutes')
+  localStorage.removeItem('seconds')
 });
 
 
@@ -361,7 +364,8 @@ shortBreakButton.addEventListener('click', () => {
   shortBreakButton.classList.add('active');
   resetTimer(shortBreakInput.value * 60);
   timer.textContent = shortBreakInput.value + ':00'
-
+  localStorage.removeItem('minutes')
+  localStorage.removeItem('seconds')
 });
 
 longBreakButton.addEventListener('click', () => {
@@ -369,6 +373,8 @@ longBreakButton.addEventListener('click', () => {
   longBreakButton.classList.add('active');
   resetTimer(longBreakInput.value * 60);
   timer.textContent = longBreakInput.value + ':00'
+  localStorage.removeItem('minutes')
+  localStorage.removeItem('seconds')
 });
 
 
