@@ -27,17 +27,17 @@ const radius = progressCircle.offsetWidth / 2; //
 
 function startTimer(duration, display) {
   let timer = duration, minutes, seconds;
-  
+
   if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
     minutes = parseInt(localStorage.getItem('minutes'), 10);
     seconds = parseInt(localStorage.getItem('seconds'), 10);
     display.textContent = `${minutes}:${seconds}`;
-    timer = minutes * 60 + seconds; 
+    timer = minutes * 60 + seconds;
   }
-else {
-  localStorage.removeItem('minutes');
-  localStorage.removeItem('seconds');
-}
+  else {
+    localStorage.removeItem('minutes');
+    localStorage.removeItem('seconds');
+  }
 
   countdown = setInterval(function () {
     if (!pause) {
@@ -248,19 +248,22 @@ fontElements.forEach(fontElement => {
 
 // Colors
 
-function changeColors() {
 
-  function setActiveButton(btn) {
-    const activeBtn = document.querySelector('.main-button.active');
-    if (activeBtn) {
-      activeBtn.classList.remove('active');
-    }
-    btn.classList.add('active');
-    btn.style.color = '#1e213f';
-    btn.style.borderRadius = '1.6em';
-    btn.style.opacity = '1';
-    btn.style.transition = '0.3s';
+function setActiveButton(btn) {
+  const activeBtn = document.querySelector('.main-button.active');
+  if (activeBtn) {
+    activeBtn.classList.remove('active');
   }
+  btn.classList.add('active');
+  btn.style.color = '#1e213f';
+  btn.style.borderRadius = '1.6em';
+  btn.style.opacity = '1';
+  btn.style.transition = '0.3s';
+  localStorage.setItem('activeButtonId', btn.id);
+}
+
+
+function changeColors() {
 
   // Change bg-color .main-buttons
   mainBtns.forEach((btn) => {
@@ -274,6 +277,7 @@ function changeColors() {
       btn.style.backgroundColor = this.color;
       localStorage.setItem('activeButtonId', btn.id);
       setActiveButton(btn);
+
       if (btn !== activeButtonId && btn.classList.contains('active')) {
         btn.classList.remove('active');
       }
@@ -303,6 +307,7 @@ function changeColors() {
   });
 
   progressCircle.style.borderColor = this.color;
+
 }
 
 
@@ -311,6 +316,7 @@ redBtn.addEventListener("click", function () {
   this.color = red;
   localStorage.setItem("selectedColor", red);
   changeColors.call(this);
+
 });
 
 blueBtn.addEventListener("click", function () {
@@ -340,9 +346,16 @@ colorElements.forEach(function (colorElement) {
 
 //To keep active until another button clicked
 function removeActiveClass() {
-  pomodoroButton.classList.remove('active');
-  shortBreakButton.classList.remove('active');
-  longBreakButton.classList.remove('active');
+  if (!pomodoroButton.classList.contains('active')) {
+    pomodoroButton.classList.remove('active');
+  }
+  if (!shortBreakButton.classList.contains('active')) {
+    shortBreakButton.classList.remove('active');
+  }
+  if (!longBreakButton.classList.contains('active')) {
+    longBreakButton.classList.remove('active');
+  }
+
   mainBtns.forEach((btn) => {
     btn.classList.remove('active');
   });
@@ -354,8 +367,9 @@ pomodoroButton.addEventListener('click', () => {
   pomodoroButton.classList.add('active');
   resetTimer(pomodoroInput.value * 60);
   timer.textContent = pomodoroInput.value + ':00'
-  localStorage.removeItem('minutes')
-  localStorage.removeItem('seconds')
+  localStorage.removeItem('minutes');
+  localStorage.removeItem('seconds');
+
 });
 
 
@@ -364,8 +378,8 @@ shortBreakButton.addEventListener('click', () => {
   shortBreakButton.classList.add('active');
   resetTimer(shortBreakInput.value * 60);
   timer.textContent = shortBreakInput.value + ':00'
-  localStorage.removeItem('minutes')
-  localStorage.removeItem('seconds')
+  localStorage.removeItem('minutes');
+  localStorage.removeItem('seconds');
 });
 
 longBreakButton.addEventListener('click', () => {
@@ -373,8 +387,8 @@ longBreakButton.addEventListener('click', () => {
   longBreakButton.classList.add('active');
   resetTimer(longBreakInput.value * 60);
   timer.textContent = longBreakInput.value + ':00'
-  localStorage.removeItem('minutes')
-  localStorage.removeItem('seconds')
+  localStorage.removeItem('minutes');
+  localStorage.removeItem('seconds');
 });
 
 
@@ -385,25 +399,33 @@ function loadSelectedColor() {
   if (selectedColor) {
     switch (selectedColor) {
       case red:
-        redBtn.click();
+        if (!redBtn.classList.contains('active')) {
+          redBtn.click();
+        }
         break;
       case blue:
-        blueBtn.click();
+        if (!blueBtn.classList.contains('active')) {
+          blueBtn.click();
+        }
         break;
       case purple:
-        purpleBtn.click();
+        if (!purpleBtn.classList.contains('active')) {
+          purpleBtn.click();
+        }
         break;
     }
   }
-};
+}
 
 loadSelectedColor();
+
+
 
 // Load active button from localStorage
 const activeButtonId = localStorage.getItem('activeButtonId');
 if (activeButtonId) {
   const activeButton = document.getElementById(activeButtonId);
-  if (activeButton) {
+  if (activeButton && !activeButton.classList.contains('active')) {
     activeButton.click();
   }
-};
+}

@@ -93,6 +93,14 @@ body {
   margin-right: 0px;
 }
 
+.main-button.active {
+  color: #1e213f;
+  border-radius: 1.6em;
+  opacity: 1;
+  -webkit-transition: 0.3;
+  transition: 0.3;
+}
+
 .main-time {
   display: -webkit-box;
   display: -ms-flexbox;
