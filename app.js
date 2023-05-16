@@ -11,7 +11,6 @@ const longBreakButton = document.getElementById('longBreakButton');
 const progressCircle = document.getElementById('progressCircle');
 
 
-
 const red = "#F87070";
 const blue = "#70F3F8";
 const purple = "#D881F8";
@@ -23,7 +22,19 @@ const mainBtns = document.querySelectorAll(".main-button");
 
 const radius = progressCircle.offsetWidth / 2; //
 
+// Settings
+const settingsModal = document.getElementById('settings');
+const pomodoroInput = document.querySelector('#pomodoroTimeInput');
+const shortInput = document.querySelector('#shortTimeInput');
+const longInput = document.querySelector('#longTimeInput');
+const applyBtn = document.querySelector('.settings__button-apply');
 
+// Fonts
+const fontButtons = document.querySelectorAll('#selectFont button');
+const defaultFont = localStorage.getItem('font') || 'sans-serif';
+
+
+const activeButtonId = localStorage.getItem('activeButtonId');
 
 
 function startTimer(duration, display) {
@@ -157,13 +168,6 @@ window.onclick = function (event) {
 };
 
 // Settings
-const settingsModal = document.getElementById('settings');
-const pomodoroInput = document.querySelector('#pomodoroTimeInput');
-const shortInput = document.querySelector('#shortTimeInput');
-const longInput = document.querySelector('#longTimeInput');
-const applyBtn = document.querySelector('.settings__button-apply');
-
-
 // Time settings and close modal when applied
 applyBtn.addEventListener('click', () => {
   const pomodoroTime = parseInt(pomodoroInput.value);
@@ -207,11 +211,6 @@ longBreakInput.value = localStorage.getItem('longBreakTime') || longBreakInput.v
 resetTimer(pomodoroInput.value * 60);
 
 // Fonts
-const fontButtons = document.querySelectorAll('#selectFont button');
-const defaultFont = localStorage.getItem('font') || 'sans-serif';
-
-
-
 // Apply default font body 
 document.body.style.fontFamily = defaultFont;
 
@@ -254,9 +253,6 @@ function changeColors() {
   const selectedColor = localStorage.getItem("selectedColor");
 
 
-  const activeButtonId = localStorage.getItem('activeButtonId');
-  const activeButtonElement = document.getElementById(activeButtonId);
-
   // Change bg-color .main-buttons
   mainBtns.forEach((btn) => {
     btn.style.backgroundColor = "";
@@ -273,14 +269,6 @@ function changeColors() {
       btn.style.backgroundColor = selectedColor;
       localStorage.setItem('activeButtonId', btn.id);
     });
-
-
-
-    if (btn === activeButtonElement) {
-      activeButton = btn;
-      btn.classList.add('active');
-      btn.style.backgroundColor = this.color;
-    }
   });
 
   pauseButton.addEventListener("mouseover", () => {
@@ -382,7 +370,6 @@ loadSelectedColor();
 
 
 // Load active button from localStorage
-const activeButtonId = localStorage.getItem('activeButtonId');
 if (activeButtonId) {
   const activeButton = document.getElementById(activeButtonId);
   if (activeButton && !activeButton.classList.contains('active')) {
@@ -390,5 +377,5 @@ if (activeButtonId) {
   }
 }
 
-// localStorage.clear()
+localStorage.clear()
 
