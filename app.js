@@ -9,7 +9,8 @@ const pomodoroButton = document.getElementById('pomodoroButton');
 const shortBreakButton = document.getElementById('shortBreakButton');
 const longBreakButton = document.getElementById('longBreakButton');
 const progressCircle = document.getElementById('progressCircle');
-const mainTime = document.getElementById('main-time')
+
+
 
 const red = "#F87070";
 const blue = "#70F3F8";
@@ -74,7 +75,7 @@ function startTimer(duration, display) {
           remainingTime = timer;
           const audio = new Audio('audio/snuffbox.mp3');
           audio.play();
-          pauseTimer()
+          pauseTimer();
           break;
         case (timer < 20):
           remainingTime = timer;
@@ -105,7 +106,7 @@ function pauseTimer() {
   pauseButton.textContent = pause ? 'start' : 'pause';
   if (!pause) {
     startTimer(remainingTime, timerDisplay);
-    console.log(remainingTime)
+    console.log(remainingTime);
   }
 }
 
@@ -136,16 +137,16 @@ document.body.appendChild(overlay);
 
 settingsBtn.onclick = function () {
   modal.style.display = "block";
-  applyBtn.style.display = "block"
+  applyBtn.style.display = "block";
   overlay.style.display = "block";
-}
+};
 
 
 closeBtn.onclick = function () {
   modal.style.display = "none";
   applyBtn.style.display = "none";
   overlay.style.display = "none";
-}
+};
 
 window.onclick = function (event) {
   if (event.target == modal) {
@@ -153,7 +154,7 @@ window.onclick = function (event) {
     modal.style.display = "none";
     overlay.style.display = "none";
   }
-}
+};
 
 // Settings
 const settingsModal = document.getElementById('settings');
@@ -228,7 +229,7 @@ applyButton.addEventListener('click', () => {
   localStorage.setItem('font', document.body.style.fontFamily);
 });
 
-const fontElements = document.querySelectorAll(".settings__fonts-font")
+const fontElements = document.querySelectorAll(".settings__fonts-font");
 
 fontElements.forEach(fontElement => {
   if (fontElement.classList.contains(defaultFont)) {
@@ -248,22 +249,13 @@ fontElements.forEach(fontElement => {
 
 // Colors
 
-
-function setActiveButton(btn) {
-  const activeBtn = document.querySelector('.main-button.active');
-  if (activeBtn) {
-    activeBtn.classList.remove('active');
-  }
-  btn.classList.add('active');
-  btn.style.color = '#1e213f';
-  btn.style.borderRadius = '1.6em';
-  btn.style.opacity = '1';
-  btn.style.transition = '0.3s';
-  localStorage.setItem('activeButtonId', btn.id);
-}
-
-
 function changeColors() {
+  let activeButton = null;
+  const selectedColor = localStorage.getItem("selectedColor");
+
+
+  const activeButtonId = localStorage.getItem('activeButtonId');
+  const activeButtonElement = document.getElementById(activeButtonId);
 
   // Change bg-color .main-buttons
   mainBtns.forEach((btn) => {
@@ -271,43 +263,35 @@ function changeColors() {
     btn.style.color = "";
 
     btn.addEventListener('click', () => {
+      if (activeButton) {
+        activeButton.classList.remove('active'); // 
+        activeButton.style.backgroundColor = "";
 
-      mainBtns.forEach((btn) => btn.classList.remove('active'));
+      }
+      activeButton = btn;
+      btn.classList.add('active');
+      btn.style.backgroundColor = selectedColor;
+      localStorage.setItem('activeButtonId', btn.id);
+    });
+
+
+
+    if (btn === activeButtonElement) {
+      activeButton = btn;
       btn.classList.add('active');
       btn.style.backgroundColor = this.color;
-      localStorage.setItem('activeButtonId', btn.id);
-      setActiveButton(btn);
-
-      if (btn !== activeButtonId && btn.classList.contains('active')) {
-        btn.classList.remove('active');
-      }
-    });
-
-    btn.addEventListener("mousedown", () => {
-      btn.style.backgroundColor = this.color;
-    });
-
-    btn.addEventListener("focus", () => {
-      setActiveButton(btn);
-    });
-
-    btn.addEventListener("blur", () => {
-      btn.classList.remove('active');
-      btn.style.backgroundColor = "";
-      btn.style.color = "";
-    });
+    }
   });
 
   pauseButton.addEventListener("mouseover", () => {
     pauseButton.style.color = this.color;
-
   });
+
   pauseButton.addEventListener("mouseout", () => {
     pauseButton.style.color = "";
   });
 
   progressCircle.style.borderColor = this.color;
-
 }
 
 
@@ -316,7 +300,6 @@ redBtn.addEventListener("click", function () {
   this.color = red;
   localStorage.setItem("selectedColor", red);
   changeColors.call(this);
-
 });
 
 blueBtn.addEventListener("click", function () {
@@ -342,51 +325,23 @@ colorElements.forEach(function (colorElement) {
   });
 });
 
-
-
-//To keep active until another button clicked
-function removeActiveClass() {
-  if (!pomodoroButton.classList.contains('active')) {
-    pomodoroButton.classList.remove('active');
-  }
-  if (!shortBreakButton.classList.contains('active')) {
-    shortBreakButton.classList.remove('active');
-  }
-  if (!longBreakButton.classList.contains('active')) {
-    longBreakButton.classList.remove('active');
-  }
-
-  mainBtns.forEach((btn) => {
-    btn.classList.remove('active');
-  });
-}
-
-
 pomodoroButton.addEventListener('click', () => {
-  removeActiveClass();
-  pomodoroButton.classList.add('active');
   resetTimer(pomodoroInput.value * 60);
-  timer.textContent = pomodoroInput.value + ':00'
+  timer.textContent = pomodoroInput.value + ':00';
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
-
 });
 
-
 shortBreakButton.addEventListener('click', () => {
-  removeActiveClass();
-  shortBreakButton.classList.add('active');
   resetTimer(shortBreakInput.value * 60);
-  timer.textContent = shortBreakInput.value + ':00'
+  timer.textContent = shortBreakInput.value + ':00';
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
 });
 
 longBreakButton.addEventListener('click', () => {
-  removeActiveClass();
-  longBreakButton.classList.add('active');
   resetTimer(longBreakInput.value * 60);
-  timer.textContent = longBreakInput.value + ':00'
+  timer.textContent = longBreakInput.value + ':00';
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
 });
