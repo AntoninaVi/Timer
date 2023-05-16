@@ -113,7 +113,7 @@ if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
 
 
 function pauseTimer() {
-  pause = !pause;
+  // pause = !pause;
   pauseButton.textContent = pause ? 'start' : 'pause';
   if (!pause) {
     startTimer(remainingTime, timerDisplay);
