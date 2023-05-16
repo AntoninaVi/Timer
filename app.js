@@ -34,7 +34,7 @@ const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
 
-const activeButtonId = localStorage.getItem('activeButtonId');
+
 
 
 function startTimer(duration, display) {
@@ -252,6 +252,8 @@ function changeColors() {
   let activeButton = null;
   const selectedColor = localStorage.getItem("selectedColor");
 
+  const activeButtonId = localStorage.getItem('activeButtonId');
+  const activeButtonElement = document.getElementById(activeButtonId);
 
   // Change bg-color .main-buttons
   mainBtns.forEach((btn) => {
@@ -269,6 +271,14 @@ function changeColors() {
       btn.style.backgroundColor = selectedColor;
       localStorage.setItem('activeButtonId', btn.id);
     });
+
+
+
+    if (btn === activeButtonElement) {
+      activeButton = btn;
+      btn.classList.add('active');
+      btn.style.backgroundColor = this.color;
+    }
   });
 
   pauseButton.addEventListener("mouseover", () => {
@@ -370,6 +380,7 @@ loadSelectedColor();
 
 
 // Load active button from localStorage
+const activeButtonId = localStorage.getItem('activeButtonId');
 if (activeButtonId) {
   const activeButton = document.getElementById(activeButtonId);
   if (activeButton && !activeButton.classList.contains('active')) {
