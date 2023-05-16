@@ -292,9 +292,6 @@ function changeColors() {
   });
 
   progressCircle.style.borderColor = this.color;
-
-
-
 }
 
 
@@ -394,3 +391,4 @@ if (activeButtonId) {
 }
 
 // localStorage.clear()
+

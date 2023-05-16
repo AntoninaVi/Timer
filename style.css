@@ -484,6 +484,7 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: transparent;
   background-repeat: no-repeat;
 }
+
 .settings__time-input button.plus:after {
   -webkit-transform: translate(-50%, -50%) rotate(90deg);
           transform: translate(-50%, -50%) rotate(90deg);
