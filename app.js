@@ -377,5 +377,5 @@ if (activeButtonId) {
   }
 }
 
-localStorage.clear()
+// localStorage.clear()
 
