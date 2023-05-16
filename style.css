@@ -66,10 +66,14 @@ body {
   white-space: nowrap;
   margin-bottom: 2.3em;
 }
-@media screen and (max-width: 280px) {
+@media screen and (max-width: 340px) {
   .main-buttons {
     width: 20em;
-    margin-left: -2.3em;
+  }
+}
+@media screen and (max-width: 280px) {
+  .main-buttons {
+    margin-left: -2.1em;
   }
 }
 

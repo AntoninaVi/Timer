@@ -56,9 +56,11 @@ body {
     border-radius: 1.9em;
     white-space: nowrap;
     margin-bottom: 2.3em;
-    @media screen and(max-width:280px) {
+    @media screen and(max-width:340px) {
         width: 20em;
-        margin-left: -2.3em;
+    }
+    @media screen and(max-width:280px) {
+        margin-left: -2.1em;
     }
 
 }
