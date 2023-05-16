@@ -292,6 +292,9 @@ function changeColors() {
   });
 
   progressCircle.style.borderColor = this.color;
+
+
+
 }
 
 
@@ -369,6 +372,11 @@ function loadSelectedColor() {
         }
         break;
     }
+  } else {
+    localStorage.setItem("selectedColor", blue);
+    if (!blueBtn.classList.contains('active')) {
+      blueBtn.click();
+    }
   }
 }
 
@@ -384,3 +392,5 @@ if (activeButtonId) {
     activeButton.click();
   }
 }
+
+// localStorage.clear()
