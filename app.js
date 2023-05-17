@@ -1,4 +1,5 @@
-let countdown, pause = false;
+let pause = false;
+let countdown;
 let remainingTime = 0;
 let minutes = 0;
 let seconds = 0;
@@ -60,6 +61,7 @@ function startTimer(duration, display) {
       seconds = seconds < 10 ? "0" + seconds : seconds;
       localStorage.setItem('minutes', minutes);
       localStorage.setItem('seconds', seconds);
+      localStorage.setItem('cycleCount', cycleCount);
 
       display.textContent = minutes + ":" + seconds;
       // Calculate
@@ -78,6 +80,7 @@ function startTimer(duration, display) {
         case (--timer < 0):
           clearInterval(countdown);
           cycleCount++;
+          
           if (cycleCount % 4 === 0) {
             startTimer(30 * 60, display); // long break
           } else {
@@ -95,6 +98,7 @@ function startTimer(duration, display) {
           remainingTime = timer;
           break;
       }
+      
 
     }
     minutes = parseInt(timer / 60, 10);
@@ -111,12 +115,13 @@ if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
 }
 
 function pauseTimer() {
-  if (!countdown) {
-    startTimer(remainingTime, timerDisplay);
-    pauseButton.textContent = 'pause';
+  pause = !pause;
+  pauseButton.textContent = pause ? 'start' : 'pause';
+  if (pause) {
+    clearInterval(countdown);
+    countdown = null;
   } else {
-    pause = !pause;
-    pauseButton.textContent = pause ? 'start' : 'pause';
+    startTimer(remainingTime, timerDisplay);
   }
 }
 
@@ -127,6 +132,8 @@ function resetTimer(duration) {
   pauseButton.textContent = 'start';
   remainingTime = duration;
   localStorage.removeItem('remainingTime');
+  localStorage.removeItem('cycleCount');
+
 }
 
 
@@ -328,6 +335,7 @@ pomodoroButton.addEventListener('click', () => {
   timer.textContent = pomodoroInput.value + ':00';
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
+  localStorage.removeItem('cycleCount');
 });
 
 shortBreakButton.addEventListener('click', () => {
@@ -335,6 +343,7 @@ shortBreakButton.addEventListener('click', () => {
   timer.textContent = shortBreakInput.value + ':00';
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
+  localStorage.removeItem('cycleCount');
 });
 
 longBreakButton.addEventListener('click', () => {
@@ -342,6 +351,7 @@ longBreakButton.addEventListener('click', () => {
   timer.textContent = longBreakInput.value + ':00';
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
+  localStorage.removeItem('cycleCount');
 });
 
 
