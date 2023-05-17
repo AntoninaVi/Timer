@@ -110,16 +110,16 @@ if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
   timerDisplay.textContent = `${minutes}:${seconds}`;
 }
 
-
-
 function pauseTimer() {
-  // pause = !pause;
-  pauseButton.textContent = pause ? 'start' : 'pause';
-  if (!pause) {
+  if (!countdown) {
     startTimer(remainingTime, timerDisplay);
-    console.log(remainingTime);
+    pauseButton.textContent = 'pause';
+  } else {
+    pause = !pause;
+    pauseButton.textContent = pause ? 'start' : 'pause';
   }
 }
+
 
 function resetTimer(duration) {
   clearInterval(countdown);
@@ -389,4 +389,3 @@ if (activeButtonId) {
 }
 
 // localStorage.clear()
-
