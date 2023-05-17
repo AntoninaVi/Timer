@@ -35,9 +35,6 @@ const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
 
-
-
-
 function startTimer(duration, display) {
   let timer = duration, minutes, seconds;
 
@@ -52,7 +49,7 @@ function startTimer(duration, display) {
     localStorage.removeItem('seconds');
   }
 
-  countdown = setInterval(function () {
+  function countdownFunc() {
     if (!pause) {
       minutes = parseInt(timer / 60, 10);
       seconds = parseInt(timer % 60, 10);
@@ -74,7 +71,6 @@ function startTimer(duration, display) {
 
       progressCircle.style.clipPath = clipPath;
       progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
-
 
       switch (true) {
         case (--timer < 0):
@@ -99,13 +95,18 @@ function startTimer(duration, display) {
           break;
       }
       
-
     }
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
     localStorage.setItem('remainingTime', timer);
-  }, 1000);
+  }
+
+  countdownFunc();
+  countdown = setInterval(countdownFunc, 1000);
 }
+
+
+
 
 // stored 
 if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
