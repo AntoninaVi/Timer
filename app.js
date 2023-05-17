@@ -1,5 +1,5 @@
 let pause = false;
-let countdown;
+let countdown = null;
 let remainingTime = 0;
 let minutes = 0;
 let seconds = 0;
@@ -76,7 +76,6 @@ function startTimer(duration, display) {
 
       switch (true) {
         case (--timer < 0):
-          clearInterval(countdown);
           cycleCount++;
           
           if (cycleCount % 4 === 0) {
@@ -87,7 +86,7 @@ function startTimer(duration, display) {
           remainingTime = timer;
           const audio = new Audio('audio/snuffbox.mp3');
           audio.play();
-          pauseTimer();
+          // pauseTimer();
           break;
         case (timer < 20):
           remainingTime = timer;
@@ -103,6 +102,7 @@ function startTimer(duration, display) {
     seconds = parseInt(timer % 60, 10);
     localStorage.setItem('remainingTime', timer);
   }, 1000);
+
   return countdown;
 }
 
@@ -120,7 +120,7 @@ function pauseTimer() {
     clearInterval(countdown);
     countdown = null;
   } else {
-    startTimer(remainingTime, timerDisplay);
+    countdown = startTimer(remainingTime, timerDisplay);
   }
 }
 
