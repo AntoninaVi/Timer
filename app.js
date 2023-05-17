@@ -35,6 +35,7 @@ const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
 
+
 function startTimer(duration, display) {
   let timer = duration, minutes, seconds;
 
@@ -49,7 +50,7 @@ function startTimer(duration, display) {
     localStorage.removeItem('seconds');
   }
 
-  function countdownFunc() {
+  countdown = setInterval(function () {
     if (!pause) {
       minutes = parseInt(timer / 60, 10);
       seconds = parseInt(timer % 60, 10);
@@ -72,15 +73,16 @@ function startTimer(duration, display) {
       progressCircle.style.clipPath = clipPath;
       progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
 
+
       switch (true) {
         case (--timer < 0):
           clearInterval(countdown);
           cycleCount++;
           
           if (cycleCount % 4 === 0) {
-            startTimer(30 * 60, display); // long break
+            timer = 30 * 60; // long break
           } else {
-            startTimer(4 * 60, display); // short break
+            timer = 4 * 60; // short break
           }
           remainingTime = timer;
           const audio = new Audio('audio/snuffbox.mp3');
@@ -95,18 +97,14 @@ function startTimer(duration, display) {
           break;
       }
       
+
     }
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
     localStorage.setItem('remainingTime', timer);
-  }
-
-  countdownFunc();
-  countdown = setInterval(countdownFunc, 1000);
+  }, 1000);
+  return countdown;
 }
-
-
-
 
 // stored 
 if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
