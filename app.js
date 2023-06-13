@@ -42,7 +42,7 @@ function startTimer(duration, display) {
   if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
     minutes = parseInt(localStorage.getItem('minutes'), 10);
     seconds = parseInt(localStorage.getItem('seconds'), 10);
-    display.textContent = `${minutes}:${seconds}`;
+    display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     timer = minutes * 60 + seconds;
   } else {
     minutes = parseInt(duration / 60, 10);
@@ -50,6 +50,7 @@ function startTimer(duration, display) {
     localStorage.setItem('minutes', minutes);
     localStorage.setItem('seconds', seconds);
   }
+
   countdown = setInterval(function () {
     if (!pause) {
       minutes = parseInt(timer / 60, 10);
@@ -96,6 +97,7 @@ function startTimer(duration, display) {
           break;
       }
     }
+
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
     localStorage.setItem('remainingTime', timer);
