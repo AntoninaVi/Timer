@@ -77,7 +77,7 @@ function startTimer(duration, display) {
       switch (true) {
         case (--timer < 0):
           cycleCount++;
-          
+
           if (cycleCount % 4 === 0) {
             timer = 30 * 60; // long break
           } else {
@@ -95,7 +95,6 @@ function startTimer(duration, display) {
           remainingTime = timer;
           break;
       }
-      
 
     }
     minutes = parseInt(timer / 60, 10);
@@ -124,7 +123,6 @@ function pauseTimer() {
   }
 }
 
-
 function resetTimer(duration) {
   clearInterval(countdown);
   pause = false;
@@ -132,10 +130,8 @@ function resetTimer(duration) {
   remainingTime = duration;
   localStorage.removeItem('remainingTime');
   localStorage.removeItem('cycleCount');
-
+  saveActiveButton();
 }
-
-
 
 pauseButton.addEventListener('click', pauseTimer);
 
@@ -268,9 +264,8 @@ function changeColors() {
 
     btn.addEventListener('click', () => {
       if (activeButton) {
-        activeButton.classList.remove('active'); // 
-        activeButton.style.backgroundColor = "";
-
+        activeButton.classList.remove('active');
+        activeButton.style.backgroundColor = '';
       }
       activeButton = btn;
       btn.classList.add('active');
@@ -279,14 +274,12 @@ function changeColors() {
     });
 
 
-
     if (btn === activeButtonElement) {
       activeButton = btn;
       btn.classList.add('active');
       btn.style.backgroundColor = this.color;
     }
   });
-
   pauseButton.addEventListener("mouseover", () => {
     pauseButton.style.color = this.color;
   });
@@ -298,6 +291,13 @@ function changeColors() {
   progressCircle.style.borderColor = this.color;
 }
 
+function saveActiveButton() {
+  const activeButton = document.querySelector('.main-button.active');
+  if (activeButton) {
+    const activeButtonId = activeButton.id;
+    localStorage.setItem('activeButtonId', activeButtonId);
+  }
+}
 
 
 redBtn.addEventListener("click", function () {
@@ -353,11 +353,9 @@ longBreakButton.addEventListener('click', () => {
   localStorage.removeItem('cycleCount');
 });
 
-
-
 //localStorage
 function loadSelectedColor() {
-  const selectedColor = localStorage.getItem("selectedColor");
+  const selectedColor = localStorage.getItem('selectedColor');
   if (selectedColor) {
     switch (selectedColor) {
       case red:
@@ -377,9 +375,16 @@ function loadSelectedColor() {
         break;
     }
   } else {
-    localStorage.setItem("selectedColor", blue);
+    localStorage.setItem('selectedColor', blue);
     if (!blueBtn.classList.contains('active')) {
       blueBtn.click();
+    }
+  }
+  const activeButtonId = localStorage.getItem('activeButtonId');
+  if (activeButtonId) {
+    const activeButton = document.getElementById(activeButtonId);
+    if (activeButton && !activeButton.classList.contains('active')) {
+      activeButton.click();
     }
   }
 }
@@ -397,4 +402,4 @@ if (activeButtonId) {
   }
 }
 
-// localStorage.clear()
+localStorage.clear()
