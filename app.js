@@ -11,7 +11,6 @@ const shortBreakButton = document.getElementById('shortBreakButton');
 const longBreakButton = document.getElementById('longBreakButton');
 const progressCircle = document.getElementById('progressCircle');
 
-
 const red = "#F87070";
 const blue = "#70F3F8";
 const purple = "#D881F8";
@@ -37,28 +36,28 @@ const defaultFont = localStorage.getItem('font') || 'sans-serif';
 const activeButtonId = localStorage.getItem('activeButtonId');
 
 function startTimer(duration, display) {
-  let timer = duration, minutes, seconds;
+  let timer = duration;
+  let minutes, seconds;
 
   if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
     minutes = parseInt(localStorage.getItem('minutes'), 10);
     seconds = parseInt(localStorage.getItem('seconds'), 10);
     display.textContent = `${minutes}:${seconds}`;
     timer = minutes * 60 + seconds;
-  }
-  else {
+  } else {
     minutes = parseInt(duration / 60, 10);
     seconds = parseInt(duration % 60, 10);
     localStorage.setItem('minutes', minutes);
     localStorage.setItem('seconds', seconds);
   }
-
   countdown = setInterval(function () {
     if (!pause) {
       minutes = parseInt(timer / 60, 10);
       seconds = parseInt(timer % 60, 10);
 
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
+      minutes = minutes.toString().padStart(2, '0');
+      seconds = seconds.toString().padStart(2, '0');
+
       localStorage.setItem('minutes', minutes);
       localStorage.setItem('seconds', seconds);
       localStorage.setItem('cycleCount', cycleCount);
@@ -74,7 +73,6 @@ function startTimer(duration, display) {
 
       progressCircle.style.clipPath = clipPath;
       progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
-
 
       switch (true) {
         case (--timer < 0):
@@ -97,23 +95,20 @@ function startTimer(duration, display) {
           remainingTime = timer;
           break;
       }
-
     }
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
     localStorage.setItem('remainingTime', timer);
+
   }, 1000);
-
   return countdown;
-
 }
-
 
 // stored 
 if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
   const minutes = localStorage.getItem('minutes');
   const seconds = localStorage.getItem('seconds');
-  timerDisplay.textContent = `${minutes}:${seconds}`;
+  timerDisplay.textContent = `${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
 }
 
 function pauseTimer() {
@@ -126,7 +121,6 @@ function pauseTimer() {
     pauseButton.textContent = 'pause';
   }
 }
-
 
 function resetTimer(duration) {
   clearInterval(countdown);
@@ -196,10 +190,8 @@ applyBtn.addEventListener('click', () => {
   }
 });
 
-
 const shortBreakInput = document.getElementById('shortTimeInput');
 const longBreakInput = document.getElementById('longTimeInput');
-
 
 // Save to localStorage
 const applyButton = document.querySelector('.settings__button-apply');
@@ -207,7 +199,6 @@ applyButton.addEventListener('click', () => {
   localStorage.setItem('pomodoroTime', pomodoroInput.value);
   localStorage.setItem('shortBreakTime', shortBreakInput.value);
   localStorage.setItem('longBreakTime', longBreakInput.value);
-
 });
 
 // Load saved values from localStorage
@@ -254,7 +245,6 @@ fontElements.forEach(fontElement => {
 });
 
 // Colors
-
 function changeColors() {
   let activeButton = null;
   const selectedColor = localStorage.getItem("selectedColor");
@@ -275,8 +265,6 @@ function changeColors() {
       btn.style.backgroundColor = selectedColor;
       localStorage.setItem('activeButtonId', btn.id);
     });
-
-
     if (btn === activeButtonElement) {
       activeButton = btn;
       btn.classList.add('active');
@@ -334,7 +322,7 @@ colorElements.forEach(function (colorElement) {
 
 pomodoroButton.addEventListener('click', () => {
   resetTimer(pomodoroInput.value * 60);
-  timer.textContent = pomodoroInput.value + ':00';
+  timerDisplay.textContent = `${pomodoroInput.value.padStart(2, '0')}:00`;
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
   localStorage.removeItem('cycleCount');
@@ -342,7 +330,7 @@ pomodoroButton.addEventListener('click', () => {
 
 shortBreakButton.addEventListener('click', () => {
   resetTimer(shortBreakInput.value * 60);
-  timer.textContent = shortBreakInput.value + ':00';
+  timerDisplay.textContent = `${shortBreakInput.value.padStart(2, '0')}:00`;
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
   localStorage.removeItem('cycleCount');
@@ -350,7 +338,7 @@ shortBreakButton.addEventListener('click', () => {
 
 longBreakButton.addEventListener('click', () => {
   resetTimer(longBreakInput.value * 60);
-  timer.textContent = longBreakInput.value + ':00';
+  timerDisplay.textContent = `${longBreakInput.value.padStart(2, '0')}:00`;
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
   localStorage.removeItem('cycleCount');
@@ -390,13 +378,11 @@ function loadSelectedColor() {
     }
   }
 }
-
 loadSelectedColor();
 
 
 
 // Load active button from localStorage
-
 if (activeButtonId) {
   const activeButton = document.getElementById(activeButtonId);
   if (activeButton && !activeButton.classList.contains('active')) {
