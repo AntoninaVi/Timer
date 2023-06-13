@@ -46,8 +46,10 @@ function startTimer(duration, display) {
     timer = minutes * 60 + seconds;
   }
   else {
-    localStorage.removeItem('minutes');
-    localStorage.removeItem('seconds');
+    minutes = parseInt(duration / 60, 10);
+    seconds = parseInt(duration % 60, 10);
+    localStorage.setItem('minutes', minutes);
+    localStorage.setItem('seconds', seconds);
   }
 
   countdown = setInterval(function () {
