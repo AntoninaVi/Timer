@@ -105,7 +105,9 @@ function startTimer(duration, display) {
   }, 1000);
 
   return countdown;
+
 }
+
 
 // stored 
 if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
@@ -115,15 +117,16 @@ if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
 }
 
 function pauseTimer() {
-  pause = !pause;
-  pauseButton.textContent = pause ? 'start' : 'pause';
-  if (pause) {
+  if (countdown !== null) {
     clearInterval(countdown);
     countdown = null;
+    pauseButton.textContent = 'start';
   } else {
     countdown = startTimer(remainingTime, timerDisplay);
+    pauseButton.textContent = 'pause';
   }
 }
+
 
 function resetTimer(duration) {
   clearInterval(countdown);
@@ -401,4 +404,4 @@ if (activeButtonId) {
   }
 }
 
-localStorage.clear()
+// localStorage.clear()
