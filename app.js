@@ -116,13 +116,16 @@ if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
 }
 
 function pauseTimer() {
-  if (countdown !== null) {
-    clearInterval(countdown);
-    countdown = null;
-    pauseButton.textContent = 'start';
-  } else {
-    countdown = startTimer(remainingTime, timerDisplay);
-    pauseButton.textContent = 'pause';
+  switch (countdown) {
+    case null:
+      countdown = startTimer(remainingTime, timerDisplay);
+      pauseButton.textContent = 'pause';
+      break;
+    default:
+      clearInterval(countdown);
+      countdown = null;
+      pauseButton.textContent = 'start';
+      break;
   }
 }
 
