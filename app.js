@@ -15,10 +15,16 @@ const red = "#F87070";
 const blue = "#70F3F8";
 const purple = "#D881F8";
 
+//buttons
 const redBtn = document.querySelector(".red");
 const blueBtn = document.querySelector(".blue");
 const purpleBtn = document.querySelector(".purple");
 const mainBtns = document.querySelectorAll(".main-button");
+const activeButtonId = localStorage.getItem('activeButtonId');
+const applyButton = document.querySelector('.settings__button-apply');
+
+const shortBreakInput = document.getElementById('shortTimeInput');
+const longBreakInput = document.getElementById('longTimeInput');
 
 const radius = progressCircle.offsetWidth / 2; //
 
@@ -32,8 +38,6 @@ const applyBtn = document.querySelector('.settings__button-apply');
 // Fonts
 const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
-
-const activeButtonId = localStorage.getItem('activeButtonId');
 
 function startTimer(duration, display) {
   let timer = duration;
@@ -64,10 +68,10 @@ function startTimer(duration, display) {
       localStorage.setItem('cycleCount', cycleCount);
 
       display.textContent = minutes + ":" + seconds;
+
       // Calculate
       const progress = (duration - timer) / duration;
       const angle = (1 - timer) * 360;
-
       const x = Math.sin(angle * Math.PI / 180) * radius;
       const y = Math.cos(angle * Math.PI / 180) * radius;
       const clipPath = `circle(${progress * 100}% at ${radius + x}px ${radius + y}px)`;
@@ -78,7 +82,6 @@ function startTimer(duration, display) {
       switch (true) {
         case (--timer < 0):
           cycleCount++;
-
           if (cycleCount % 4 === 0) {
             timer = 30 * 60; // long break
           } else {
@@ -101,7 +104,6 @@ function startTimer(duration, display) {
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
     localStorage.setItem('remainingTime', timer);
-
   }, 1000);
   return countdown;
 }
@@ -138,7 +140,6 @@ pauseButton.addEventListener('click', pauseTimer);
 
 
 // SETTINGS SECTION
-
 // Modal window
 const settingsBtn = document.getElementById("settingsBtn");
 const modal = document.getElementById("settings");
@@ -148,13 +149,11 @@ const overlay = document.createElement("div");
 overlay.classList.add("overlay");
 document.body.appendChild(overlay);
 
-
 settingsBtn.onclick = function () {
   modal.style.display = "block";
   applyBtn.style.display = "block";
   overlay.style.display = "block";
 };
-
 
 closeBtn.onclick = function () {
   modal.style.display = "none";
@@ -192,11 +191,7 @@ applyBtn.addEventListener('click', () => {
   }
 });
 
-const shortBreakInput = document.getElementById('shortTimeInput');
-const longBreakInput = document.getElementById('longTimeInput');
-
-// Save to localStorage
-const applyButton = document.querySelector('.settings__button-apply');
+// Save to localStorage apply button
 applyButton.addEventListener('click', () => {
   localStorage.setItem('pomodoroTime', pomodoroInput.value);
   localStorage.setItem('shortBreakTime', shortBreakInput.value);
@@ -292,7 +287,6 @@ function saveActiveButton() {
   }
 }
 
-
 redBtn.addEventListener("click", function () {
   this.color = red;
   localStorage.setItem("selectedColor", red);
@@ -373,7 +367,10 @@ function loadSelectedColor() {
       blueBtn.click();
     }
   }
-  if (activeButtonId) {
+  const activeButtonId = localStorage.getItem('activeButtonId');
+  if (!activeButtonId || !document.getElementById(activeButtonId)) {
+    pomodoroButton.click(); // default active button
+  } else {
     const activeButton = document.getElementById(activeButtonId);
     if (activeButton && !activeButton.classList.contains('active')) {
       activeButton.click();
@@ -381,8 +378,6 @@ function loadSelectedColor() {
   }
 }
 loadSelectedColor();
-
-
 
 // Load active button from localStorage
 if (activeButtonId) {
