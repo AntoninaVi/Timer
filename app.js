@@ -65,7 +65,6 @@ function startTimer(duration, display) {
 
       localStorage.setItem('minutes', minutes);
       localStorage.setItem('seconds', seconds);
-      localStorage.setItem('cycleCount', cycleCount);
 
       display.textContent = minutes + ":" + seconds;
 
@@ -79,11 +78,14 @@ function startTimer(duration, display) {
       progressCircle.style.clipPath = clipPath;
       progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
 
+      localStorage.setItem('progress', progress );
+
       switch (true) {
         case (--timer < 0):
           cycleCount++;
           if (cycleCount % 4 === 0) {
             timer = 30 * 60; // long break
+            
           } else {
             timer = 4 * 60; // short break
           }
@@ -107,7 +109,16 @@ function startTimer(duration, display) {
   }, 1000);
   return countdown;
 }
+if (localStorage.getItem('progress')) {
+  const progress = parseFloat(localStorage.getItem('progress'));
+  const angle = (1 - progress) * 360;
+  const x = Math.sin(angle * Math.PI / 180) * radius;
+  const y = Math.cos(angle * Math.PI / 180) * radius;
+  const clipPath = `circle(${progress * 100}% at ${radius + x}px ${radius + y}px)`;
 
+  progressCircle.style.clipPath = clipPath;
+  progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
+}
 // stored 
 if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
   const minutes = localStorage.getItem('minutes');
@@ -116,16 +127,13 @@ if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
 }
 
 function pauseTimer() {
-  switch (countdown) {
-    case null:
-      countdown = startTimer(remainingTime, timerDisplay);
-      pauseButton.textContent = 'pause';
-      break;
-    default:
-      clearInterval(countdown);
-      countdown = null;
-      pauseButton.textContent = 'start';
-      break;
+  if (countdown !== null) {
+    clearInterval(countdown);
+    countdown = null;
+    pauseButton.textContent = 'start';
+  } else {
+    countdown = startTimer(remainingTime, timerDisplay);
+    pauseButton.textContent = 'pause';
   }
 }
 
@@ -135,7 +143,7 @@ function resetTimer(duration) {
   pauseButton.textContent = 'start';
   remainingTime = duration;
   localStorage.removeItem('remainingTime');
-  localStorage.removeItem('cycleCount');
+  localStorage.removeItem('progress');
   saveActiveButton();
 }
 
@@ -143,6 +151,7 @@ pauseButton.addEventListener('click', pauseTimer);
 
 
 // SETTINGS SECTION
+
 // Modal window
 const settingsBtn = document.getElementById("settingsBtn");
 const modal = document.getElementById("settings");
@@ -178,6 +187,9 @@ applyBtn.addEventListener('click', () => {
   const pomodoroTime = parseInt(pomodoroInput.value);
   const shortBreakTime = parseInt(shortInput.value);
   const longBreakTime = parseInt(longInput.value);
+  localStorage.setItem('pomodoroTime', pomodoroInput.value);
+  localStorage.setItem('shortBreakTime', shortBreakInput.value);
+  localStorage.setItem('longBreakTime', longBreakInput.value);
   applyBtn.style.display = "none";
   overlay.style.display = "none";
 
@@ -192,13 +204,6 @@ applyBtn.addEventListener('click', () => {
   } else {
     alert('Please enter valid numbers');
   }
-});
-
-// Save to localStorage apply button
-applyButton.addEventListener('click', () => {
-  localStorage.setItem('pomodoroTime', pomodoroInput.value);
-  localStorage.setItem('shortBreakTime', shortBreakInput.value);
-  localStorage.setItem('longBreakTime', longBreakInput.value);
 });
 
 // Load saved values from localStorage
