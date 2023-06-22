@@ -38,10 +38,11 @@ const applyBtn = document.querySelector('.settings__button-apply');
 // Fonts
 const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
+const clipPathPercentage = parseFloat(localStorage.getItem('clipPathPercent'));
+const progress = clipPathPercentage / 100;
 
-if (localStorage.getItem('clipPathPercent')) {
-  const clipPathPercentage = parseFloat(localStorage.getItem('clipPathPercent'));
-  const progress = clipPathPercentage / 100; 
+if (localStorage.getItem('clipPathPercent') && localStorage.getItem('remainingTime')) {
+
   const angle = (1 - progress) * 360;
   const x = Math.sin(angle * Math.PI / 180) * radius;
   const y = Math.cos(angle * Math.PI / 180) * radius;
@@ -49,12 +50,12 @@ if (localStorage.getItem('clipPathPercent')) {
 
   progressCircle.style.clipPath = clipPath;
   progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
-}
 
-if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
-  minutes = parseInt(localStorage.getItem('minutes'), 10);
-  seconds = parseInt(localStorage.getItem('seconds'), 10);
+  remainingTime = parseInt(localStorage.getItem('remainingTime'), 10);
+  minutes = parseInt(remainingTime / 60, 10);
+  seconds = parseInt(remainingTime % 60, 10);
   timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
 }
 
 function startTimer(duration, display) {
@@ -66,7 +67,7 @@ function startTimer(duration, display) {
     seconds = parseInt(localStorage.getItem('seconds'), 10);
     display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     timer = minutes * 60 + seconds;
-    
+
   } else {
     minutes = parseInt(duration / 60, 10);
     seconds = parseInt(duration % 60, 10);
@@ -76,6 +77,11 @@ function startTimer(duration, display) {
   
   countdown = setInterval(function () {
     if (!pause) {
+      if (localStorage.getItem('remainingTime')) {
+        timer = parseInt(localStorage.getItem('remainingTime'), 10);
+        localStorage.removeItem('remainingTime');
+      }
+      
       minutes = parseInt(timer / 60, 10);
       seconds = parseInt(timer % 60, 10);
 
@@ -126,18 +132,20 @@ function startTimer(duration, display) {
   }, 1000);
   return countdown;
 }
-
 function pauseTimer() {
   if (countdown !== null) {
     clearInterval(countdown);
     countdown = null;
     pauseButton.textContent = 'start';
-    
+    localStorage.setItem('clipPathPercent', progress);
+    localStorage.setItem('minutes', minutes);
+    localStorage.setItem('seconds', seconds);
   } else {
     countdown = startTimer(remainingTime, timerDisplay);
     pauseButton.textContent = 'pause';
   }
 }
+
 
 function resetTimer(duration) {
   clearInterval(countdown);
@@ -146,6 +154,7 @@ function resetTimer(duration) {
   remainingTime = duration;
   localStorage.removeItem('remainingTime');
   localStorage.removeItem('progress');
+  localStorage.removeItem('clipPathPercent');
   saveActiveButton();
 }
 
