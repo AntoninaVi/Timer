@@ -39,6 +39,25 @@ const applyBtn = document.querySelector('.settings__button-apply');
 const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
+if (localStorage.getItem('clipPathPercent')) {
+  const clipPathPercentage = parseFloat(localStorage.getItem('clipPathPercent'));
+  const angle = (1 - clipPathPercentage / 100) * 360;
+  const x = Math.sin(angle * Math.PI / 180) * radius;
+  const y = Math.cos(angle * Math.PI / 180) * radius;
+  const clipPath = `circle(${clipPathPercentage}% at ${radius + x}px ${radius + y}px)`;
+
+  progressCircle.style.clipPath = clipPath;
+  progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
+}
+
+// Restore timer display
+if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
+  const minutes = parseInt(localStorage.getItem('minutes'), 10).toString();
+  const seconds = parseInt(localStorage.getItem('seconds'), 10).toString();
+  timerDisplay.textContent = `${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+}
+
+
 function startTimer(duration, display) {
   let timer = duration;
   let minutes, seconds;
@@ -54,6 +73,7 @@ function startTimer(duration, display) {
     localStorage.setItem('minutes', minutes);
     localStorage.setItem('seconds', seconds);
   }
+  
 
   countdown = setInterval(function () {
     if (!pause) {
@@ -65,6 +85,7 @@ function startTimer(duration, display) {
 
       localStorage.setItem('minutes', minutes);
       localStorage.setItem('seconds', seconds);
+      localStorage.setItem('cycleCount', cycleCount);
 
       display.textContent = minutes + ":" + seconds;
 
@@ -78,7 +99,9 @@ function startTimer(duration, display) {
       progressCircle.style.clipPath = clipPath;
       progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
 
-      localStorage.setItem('progress', progress );
+      // localStorage.setItem('clipPathProgress', progress);
+      localStorage.setItem('clipPathPercent', progress * 100);
+
 
       switch (true) {
         case (--timer < 0):
@@ -109,22 +132,7 @@ function startTimer(duration, display) {
   }, 1000);
   return countdown;
 }
-if (localStorage.getItem('progress')) {
-  const progress = parseFloat(localStorage.getItem('progress'));
-  const angle = (1 - progress) * 360;
-  const x = Math.sin(angle * Math.PI / 180) * radius;
-  const y = Math.cos(angle * Math.PI / 180) * radius;
-  const clipPath = `circle(${progress * 100}% at ${radius + x}px ${radius + y}px)`;
 
-  progressCircle.style.clipPath = clipPath;
-  progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
-}
-// stored 
-if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
-  const minutes = localStorage.getItem('minutes');
-  const seconds = localStorage.getItem('seconds');
-  timerDisplay.textContent = `${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
-}
 
 function pauseTimer() {
   if (countdown !== null) {
@@ -143,6 +151,7 @@ function resetTimer(duration) {
   pauseButton.textContent = 'start';
   remainingTime = duration;
   localStorage.removeItem('remainingTime');
+  localStorage.removeItem('cycleCount');
   localStorage.removeItem('progress');
   saveActiveButton();
 }
@@ -205,6 +214,7 @@ applyBtn.addEventListener('click', () => {
     alert('Please enter valid numbers');
   }
 });
+
 
 // Load saved values from localStorage
 pomodoroInput.value = localStorage.getItem('pomodoroTime') || pomodoroInput.value;
