@@ -3,7 +3,7 @@ let countdown = null;
 let remainingTime = 0;
 let minutes = 0;
 let seconds = 0;
-let cycleCount = 0;
+
 const timerDisplay = document.getElementById('timer');
 const pauseButton = document.getElementById('pauseButton');
 const pomodoroButton = document.getElementById('pomodoroButton');
@@ -41,7 +41,8 @@ const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
 if (localStorage.getItem('clipPathPercent')) {
   const clipPathPercentage = parseFloat(localStorage.getItem('clipPathPercent'));
-  const angle = (1 - clipPathPercentage / 100) * 360;
+  const progress = clipPathPercentage / 100; 
+  const angle = (1 - progress) * 360;
   const x = Math.sin(angle * Math.PI / 180) * radius;
   const y = Math.cos(angle * Math.PI / 180) * radius;
   const clipPath = `circle(${clipPathPercentage}% at ${radius + x}px ${radius + y}px)`;
@@ -50,13 +51,11 @@ if (localStorage.getItem('clipPathPercent')) {
   progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
 }
 
-// Restore timer display
 if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
-  const minutes = parseInt(localStorage.getItem('minutes'), 10).toString();
-  const seconds = parseInt(localStorage.getItem('seconds'), 10).toString();
-  timerDisplay.textContent = `${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+  minutes = parseInt(localStorage.getItem('minutes'), 10);
+  seconds = parseInt(localStorage.getItem('seconds'), 10);
+  timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
-
 
 function startTimer(duration, display) {
   let timer = duration;
@@ -67,6 +66,7 @@ function startTimer(duration, display) {
     seconds = parseInt(localStorage.getItem('seconds'), 10);
     display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     timer = minutes * 60 + seconds;
+    
   } else {
     minutes = parseInt(duration / 60, 10);
     seconds = parseInt(duration % 60, 10);
@@ -74,7 +74,6 @@ function startTimer(duration, display) {
     localStorage.setItem('seconds', seconds);
   }
   
-
   countdown = setInterval(function () {
     if (!pause) {
       minutes = parseInt(timer / 60, 10);
@@ -85,7 +84,6 @@ function startTimer(duration, display) {
 
       localStorage.setItem('minutes', minutes);
       localStorage.setItem('seconds', seconds);
-      localStorage.setItem('cycleCount', cycleCount);
 
       display.textContent = minutes + ":" + seconds;
 
@@ -98,17 +96,13 @@ function startTimer(duration, display) {
 
       progressCircle.style.clipPath = clipPath;
       progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
-
-      // localStorage.setItem('clipPathProgress', progress);
       localStorage.setItem('clipPathPercent', progress * 100);
 
 
       switch (true) {
         case (--timer < 0):
-          cycleCount++;
-          if (cycleCount % 4 === 0) {
+          if ((remainingTime / 60) % 30 === 0) {
             timer = 30 * 60; // long break
-            
           } else {
             timer = 4 * 60; // short break
           }
@@ -124,8 +118,8 @@ function startTimer(duration, display) {
           remainingTime = timer;
           break;
       }
+      
     }
-
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
     localStorage.setItem('remainingTime', timer);
@@ -133,12 +127,12 @@ function startTimer(duration, display) {
   return countdown;
 }
 
-
 function pauseTimer() {
   if (countdown !== null) {
     clearInterval(countdown);
     countdown = null;
     pauseButton.textContent = 'start';
+    
   } else {
     countdown = startTimer(remainingTime, timerDisplay);
     pauseButton.textContent = 'pause';
@@ -151,7 +145,6 @@ function resetTimer(duration) {
   pauseButton.textContent = 'start';
   remainingTime = duration;
   localStorage.removeItem('remainingTime');
-  localStorage.removeItem('cycleCount');
   localStorage.removeItem('progress');
   saveActiveButton();
 }
@@ -160,7 +153,6 @@ pauseButton.addEventListener('click', pauseTimer);
 
 
 // SETTINGS SECTION
-
 // Modal window
 const settingsBtn = document.getElementById("settingsBtn");
 const modal = document.getElementById("settings");
@@ -339,7 +331,7 @@ pomodoroButton.addEventListener('click', () => {
   timerDisplay.textContent = `${pomodoroInput.value.padStart(2, '0')}:00`;
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
-  localStorage.removeItem('cycleCount');
+
 });
 
 shortBreakButton.addEventListener('click', () => {
@@ -347,7 +339,7 @@ shortBreakButton.addEventListener('click', () => {
   timerDisplay.textContent = `${shortBreakInput.value.padStart(2, '0')}:00`;
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
-  localStorage.removeItem('cycleCount');
+
 });
 
 longBreakButton.addEventListener('click', () => {
@@ -355,7 +347,7 @@ longBreakButton.addEventListener('click', () => {
   timerDisplay.textContent = `${longBreakInput.value.padStart(2, '0')}:00`;
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
-  localStorage.removeItem('cycleCount');
+
 });
 
 //localStorage
