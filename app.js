@@ -38,6 +38,8 @@ const applyBtn = document.querySelector('.settings__button-apply');
 // Fonts
 const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
+
+// clip Path for progress bar
 const clipPathPercentage = parseFloat(localStorage.getItem('clipPathPercent'));
 const progress = clipPathPercentage / 100;
 
@@ -145,9 +147,9 @@ function pauseTimer() {
   } else {
     countdown = startTimer(remainingTime, timerDisplay);
     pauseButton.textContent = 'pause';
+    
   }
 }
-
 
 function resetTimer(duration) {
   clearInterval(countdown);
