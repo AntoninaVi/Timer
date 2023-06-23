@@ -42,7 +42,6 @@ const clipPathPercentage = parseFloat(localStorage.getItem('clipPathPercent'));
 const progress = clipPathPercentage / 100;
 
 if (localStorage.getItem('clipPathPercent') && localStorage.getItem('remainingTime')) {
-
   const angle = (1 - progress) * 360;
   const x = Math.sin(angle * Math.PI / 180) * radius;
   const y = Math.cos(angle * Math.PI / 180) * radius;
@@ -74,14 +73,15 @@ function startTimer(duration, display) {
     localStorage.setItem('minutes', minutes);
     localStorage.setItem('seconds', seconds);
   }
-  
+
+
   countdown = setInterval(function () {
     if (!pause) {
       if (localStorage.getItem('remainingTime')) {
         timer = parseInt(localStorage.getItem('remainingTime'), 10);
         localStorage.removeItem('remainingTime');
       }
-      
+
       minutes = parseInt(timer / 60, 10);
       seconds = parseInt(timer % 60, 10);
 
@@ -90,6 +90,7 @@ function startTimer(duration, display) {
 
       localStorage.setItem('minutes', minutes);
       localStorage.setItem('seconds', seconds);
+
 
       display.textContent = minutes + ":" + seconds;
 
@@ -124,7 +125,7 @@ function startTimer(duration, display) {
           remainingTime = timer;
           break;
       }
-      
+
     }
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
@@ -134,12 +135,13 @@ function startTimer(duration, display) {
 }
 function pauseTimer() {
   if (countdown !== null) {
+    localStorage.setItem('clipPathPercent', progress * 100);
+    localStorage.setItem('remainingTime', remainingTime);
+    
     clearInterval(countdown);
     countdown = null;
     pauseButton.textContent = 'start';
-    localStorage.setItem('clipPathPercent', progress);
-    localStorage.setItem('minutes', minutes);
-    localStorage.setItem('seconds', seconds);
+
   } else {
     countdown = startTimer(remainingTime, timerDisplay);
     pauseButton.textContent = 'pause';
@@ -153,7 +155,6 @@ function resetTimer(duration) {
   pauseButton.textContent = 'start';
   remainingTime = duration;
   localStorage.removeItem('remainingTime');
-  localStorage.removeItem('progress');
   localStorage.removeItem('clipPathPercent');
   saveActiveButton();
 }
