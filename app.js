@@ -92,6 +92,8 @@ function startTimer(duration, display) {
 
       localStorage.setItem('minutes', minutes);
       localStorage.setItem('seconds', seconds);
+     
+
 
 
       display.textContent = minutes + ":" + seconds;
@@ -105,7 +107,7 @@ function startTimer(duration, display) {
 
       progressCircle.style.clipPath = clipPath;
       progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
-      localStorage.setItem('clipPathPercent', progress * 100);
+       localStorage.setItem('clipPathPercent', progress * 100);
 
 
       switch (true) {
@@ -137,7 +139,7 @@ function startTimer(duration, display) {
 }
 function pauseTimer() {
   if (countdown !== null) {
-    localStorage.setItem('clipPathPercent', progress * 100);
+   
     localStorage.setItem('remainingTime', remainingTime);
     
     clearInterval(countdown);
@@ -157,7 +159,6 @@ function resetTimer(duration) {
   pauseButton.textContent = 'start';
   remainingTime = duration;
   localStorage.removeItem('remainingTime');
-  localStorage.removeItem('clipPathPercent');
   saveActiveButton();
 }
 
