@@ -20,7 +20,6 @@ body {
     }
 }
 
-
 .container {
     max-width: 25em;
     width: 100%;
@@ -62,7 +61,6 @@ body {
     @media screen and(max-width:280px) {
         margin-left: -2.1em;
     }
-
 }
 .main-button {
     width: 120px;
@@ -90,7 +88,7 @@ body {
 //     opacity: 1;
 //     transition: 0.3;
 // }
-.main-button.active{
+.main-button.active {
     color: #1e213f;
     // background: #70f3f8;
     border-radius: 1.6em;
@@ -131,9 +129,7 @@ body {
     width: 23em;
     height: 23em;
     border-radius: 50%;
-    border: 0.6em solid #70f3f8;
-    // clip-path: ellipse(50% 50% at 0% 50%, 50% 50% at 100% 50%);
-    transform: rotate(-90deg);
+    // border: 0.6em solid #70f3f8;
     transform-origin: center;
 }
 
@@ -147,6 +143,17 @@ body {
     margin-bottom: 3rem;
     padding-top: 1em;
     border-radius: 50%;
+    &::before {
+        content: "";
+        position: absolute;
+        top: -0.4em;
+        left: 0.5rem;
+        height: 3.5em;
+        width: 3.5em;
+        border-radius: 50%;
+        background-color: #161932;
+        z-index: -1;
+    }
 }
 .pause-btn {
     position: relative;
@@ -161,30 +168,12 @@ body {
     color: #d7e0ff;
     background-color: transparent;
     border: none;
+    z-index: 1;
     cursor: pointer;
     &:hover {
         color: #70f3f8;
         transition: 0.3;
     }
-}
-
-#progress {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: transparent;
-    box-shadow: inset 0 0 0 2px #ccc;
-}
-
-#progress::-webkit-progress-bar {
-    background-color: transparent;
-}
-
-#progress::-webkit-progress-value {
-    background-color: #007bff;
 }
 
 //   Setting
@@ -398,7 +387,6 @@ input[type="number"]::-webkit-outer-spin-button {
     background-image: url(img/arrow-down.svg);
     background-color: transparent;
     background-repeat: no-repeat;
-
 }
 
 .settings__time-input button.plus:after {

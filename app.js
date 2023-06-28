@@ -40,35 +40,35 @@ const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
 // clip Path for progress bar
-const clipPathPercentage = parseFloat(localStorage.getItem('clipPathPercent'));
-const progress = clipPathPercentage / 100;
+// const clipPathPercentage = parseFloat(localStorage.getItem('clipPathPercent'));
+// const progress = clipPathPercentage / 100;
 
-if (localStorage.getItem('clipPathPercent') && localStorage.getItem('remainingTime')) {
-  const angle = (1 - progress) * 360;
-  const x = Math.sin(angle * Math.PI / 180) * radius;
-  const y = Math.cos(angle * Math.PI / 180) * radius;
-  const clipPath = `circle(${clipPathPercentage}% at ${radius + x}px ${radius + y}px)`;
+// if (localStorage.getItem('clipPathPercent') && localStorage.getItem('remainingTime')) {
+//   const angle = (1 - progress) * 360;
+//   const x = Math.sin(angle * Math.PI / 180) * radius;
+//   const y = Math.cos(angle * Math.PI / 180) * radius;
+//   const clipPath = `circle(${clipPathPercentage}% at ${radius + x}px ${radius + y}px)`;
 
-  progressCircle.style.clipPath = clipPath;
-  progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
+//   progressCircle.style.clipPath = clipPath;
+//   progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
 
-  remainingTime = parseInt(localStorage.getItem('remainingTime'), 10);
-  minutes = parseInt(remainingTime / 60, 10);
-  seconds = parseInt(remainingTime % 60, 10);
-  timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+//   remainingTime = parseInt(localStorage.getItem('remainingTime'), 10);
+//   minutes = parseInt(remainingTime / 60, 10);
+//   seconds = parseInt(remainingTime % 60, 10);
+//   timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-}
+// }
 
 function startTimer(duration, display) {
   let timer = duration;
   let minutes, seconds;
+  const selectedColor = localStorage.getItem("selectedColor");
 
   if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
     minutes = parseInt(localStorage.getItem('minutes'), 10);
     seconds = parseInt(localStorage.getItem('seconds'), 10);
     display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     timer = minutes * 60 + seconds;
-
   } else {
     minutes = parseInt(duration / 60, 10);
     seconds = parseInt(duration % 60, 10);
@@ -76,6 +76,7 @@ function startTimer(duration, display) {
     localStorage.setItem('seconds', seconds);
   }
 
+  let progress = 0;
 
   countdown = setInterval(function () {
     if (!pause) {
@@ -92,23 +93,13 @@ function startTimer(duration, display) {
 
       localStorage.setItem('minutes', minutes);
       localStorage.setItem('seconds', seconds);
-     
-
-
 
       display.textContent = minutes + ":" + seconds;
 
-      // Calculate
-      const progress = (duration - timer) / duration;
-      const angle = (1 - timer) * 360;
-      const x = Math.sin(angle * Math.PI / 180) * radius;
-      const y = Math.cos(angle * Math.PI / 180) * radius;
-      const clipPath = `circle(${progress * 100}% at ${radius + x}px ${radius + y}px)`;
+      // Calculate progress
+      progress = ((duration - timer) / duration) * 320;
 
-      progressCircle.style.clipPath = clipPath;
-      progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
-       localStorage.setItem('clipPathPercent', progress * 100);
-
+      progressCircle.style.background = `conic-gradient(transparent ${progress}deg, ${selectedColor} 0deg)`;
 
       switch (true) {
         case (--timer < 0):
@@ -129,7 +120,6 @@ function startTimer(duration, display) {
           remainingTime = timer;
           break;
       }
-
     }
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
@@ -137,9 +127,10 @@ function startTimer(duration, display) {
   }, 1000);
   return countdown;
 }
+
+
 function pauseTimer() {
   if (countdown !== null) {
-   
     localStorage.setItem('remainingTime', remainingTime);
     
     clearInterval(countdown);
