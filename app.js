@@ -39,25 +39,7 @@ const applyBtn = document.querySelector('.settings__button-apply');
 const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
-// clip Path for progress bar
-// const clipPathPercentage = parseFloat(localStorage.getItem('clipPathPercent'));
-// const progress = clipPathPercentage / 100;
-
-// if (localStorage.getItem('clipPathPercent') && localStorage.getItem('remainingTime')) {
-//   const angle = (1 - progress) * 360;
-//   const x = Math.sin(angle * Math.PI / 180) * radius;
-//   const y = Math.cos(angle * Math.PI / 180) * radius;
-//   const clipPath = `circle(${clipPathPercentage}% at ${radius + x}px ${radius + y}px)`;
-
-//   progressCircle.style.clipPath = clipPath;
-//   progressCircle.style.borderRadius = `${progressCircle.offsetHeight / 2}px`;
-
-//   remainingTime = parseInt(localStorage.getItem('remainingTime'), 10);
-//   minutes = parseInt(remainingTime / 60, 10);
-//   seconds = parseInt(remainingTime % 60, 10);
-//   timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-// }
+let progress = 0;
 
 function startTimer(duration, display) {
   let timer = duration;
@@ -76,7 +58,7 @@ function startTimer(duration, display) {
     localStorage.setItem('seconds', seconds);
   }
 
-  let progress = 0;
+
 
   countdown = setInterval(function () {
     if (!pause) {
