@@ -47,6 +47,8 @@ function startTimer(duration, display) {
   let minutes, seconds;
   const selectedColor = localStorage.getItem("selectedColor");
 
+  
+
   if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
     minutes = parseInt(localStorage.getItem('minutes'), 10);
     seconds = parseInt(localStorage.getItem('seconds'), 10);
@@ -113,6 +115,10 @@ function startTimer(duration, display) {
     seconds = parseInt(timer % 60, 10);
     localStorage.setItem('remainingTime', timer);
   }, 1000);
+  window.onbeforeunload = function() {
+    localStorage.setItem('progress', progress.toFixed());
+    localStorage.setItem('remainingTime', timer);
+  };
   return countdown;
 }
 
@@ -125,13 +131,23 @@ function pauseTimer() {
     clearInterval(countdown);
     countdown = null;
     pauseButton.textContent = 'start';
-
+    window.onbeforeunload = null;
   } else {
     countdown = startTimer(remainingTime, timerDisplay);
     pauseButton.textContent = 'pause';
+    window.onbeforeunload = function() {
+      localStorage.setItem('progress', progress.toFixed());
+      localStorage.setItem('remainingTime', remainingTime);
+    };
   }
 }
-
+document.addEventListener("DOMContentLoaded", function () {
+  if (localStorage.getItem('remainingTime')) {
+    remainingTime = parseInt(localStorage.getItem('remainingTime'), 10);
+    countdown = startTimer(remainingTime, timerDisplay);
+    pauseButton.textContent = 'pause';
+  }
+});
 function resetTimer(duration) {
   clearInterval(countdown);
   pause = false;
