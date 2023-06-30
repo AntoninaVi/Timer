@@ -107,7 +107,7 @@ function startTimer(duration, display) {
           remainingTime = timer;
           break;
       }
-      // localStorage.setItem('progress', progress);
+      localStorage.setItem('progress', progress);
     }
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
