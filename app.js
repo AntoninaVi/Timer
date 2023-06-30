@@ -40,6 +40,7 @@ const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
 let progress = 0;
+let initialProgress = 0;
 
 function startTimer(duration, display) {
   let timer = duration;
@@ -58,7 +59,11 @@ function startTimer(duration, display) {
     localStorage.setItem('seconds', seconds);
   }
 
-
+  if (localStorage.getItem('progress')) {
+    initialProgress = parseFloat(localStorage.getItem('progress'));
+  } else {
+    initialProgress = 0;
+  }
 
   countdown = setInterval(function () {
     if (!pause) {
@@ -79,10 +84,10 @@ function startTimer(duration, display) {
       display.textContent = minutes + ":" + seconds;
 
       // Calculate progress
-      progress = ((duration - timer) / duration) * 320;
+      progress = initialProgress + ((duration - timer) / duration) * 320;
 
       progressCircle.style.background = `conic-gradient(transparent ${progress}deg, ${selectedColor} 0deg)`;
-
+      localStorage.setItem('progress', progress);
       switch (true) {
         case (--timer < 0):
           if ((remainingTime / 60) % 30 === 0) {
@@ -102,6 +107,7 @@ function startTimer(duration, display) {
           remainingTime = timer;
           break;
       }
+      // localStorage.setItem('progress', progress);
     }
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
@@ -112,9 +118,10 @@ function startTimer(duration, display) {
 
 
 function pauseTimer() {
+
   if (countdown !== null) {
     localStorage.setItem('remainingTime', remainingTime);
-    
+    localStorage.setItem('progress', progress.toFixed());
     clearInterval(countdown);
     countdown = null;
     pauseButton.textContent = 'start';
@@ -122,7 +129,6 @@ function pauseTimer() {
   } else {
     countdown = startTimer(remainingTime, timerDisplay);
     pauseButton.textContent = 'pause';
-    
   }
 }
 
@@ -132,6 +138,7 @@ function resetTimer(duration) {
   pauseButton.textContent = 'start';
   remainingTime = duration;
   localStorage.removeItem('remainingTime');
+  localStorage.removeItem('progress');
   saveActiveButton();
 }
 
@@ -384,4 +391,3 @@ if (activeButtonId) {
 }
 
 
-// localStorage.clear()
