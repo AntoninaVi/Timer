@@ -42,12 +42,15 @@ const defaultFont = localStorage.getItem('font') || 'sans-serif';
 let progress = 0;
 let initialProgress = 0;
 
+let shortBreakProgress = parseFloat(localStorage.getItem('shortBreakProgress')) || 0;
+let longBreakProgress = parseFloat(localStorage.getItem('longBreakProgress')) || 0;
+
+
+
 function startTimer(duration, display) {
   let timer = duration;
   let minutes, seconds;
   const selectedColor = localStorage.getItem("selectedColor");
-
-  
 
   if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
     minutes = parseInt(localStorage.getItem('minutes'), 10);
@@ -87,9 +90,18 @@ function startTimer(duration, display) {
 
       // Calculate progress
       progress = initialProgress + ((duration - timer) / duration) * 320;
-
+      if (duration === shortBreakInput.value * 60) {
+        shortBreakProgress = progress;
+        localStorage.setItem('shortBreakProgress', shortBreakProgress);
+      } else if (duration === longBreakInput.value * 60) {
+        longBreakProgress = progress;
+        localStorage.setItem('longBreakProgress', longBreakProgress);
+      }
+      
       progressCircle.style.background = `conic-gradient(transparent ${progress}deg, ${selectedColor} 0deg)`;
       localStorage.setItem('progress', progress);
+      
+
       switch (true) {
         case (--timer < 0):
           if ((remainingTime / 60) % 30 === 0) {
@@ -98,12 +110,14 @@ function startTimer(duration, display) {
             timer = 4 * 60; // short break
           }
           remainingTime = timer;
+
           const audio = new Audio('audio/snuffbox.mp3');
           audio.play();
           // pauseTimer();
           break;
         case (timer < 20):
           remainingTime = timer;
+
           break;
         default:
           remainingTime = timer;
@@ -115,7 +129,7 @@ function startTimer(duration, display) {
     seconds = parseInt(timer % 60, 10);
     localStorage.setItem('remainingTime', timer);
   }, 1000);
-  window.onbeforeunload = function() {
+  window.onbeforeunload = function () {
     localStorage.setItem('progress', progress.toFixed());
     localStorage.setItem('remainingTime', timer);
   };
@@ -124,7 +138,12 @@ function startTimer(duration, display) {
 
 
 function pauseTimer() {
-
+  if (remainingTime === shortBreakInput.value * 60) {
+    localStorage.removeItem('shortBreakProgress');
+  } else if (remainingTime === longBreakInput.value * 60) {
+    localStorage.removeItem('longBreakProgress');
+  }
+  
   if (countdown !== null) {
     localStorage.setItem('remainingTime', remainingTime);
     localStorage.setItem('progress', progress.toFixed());
@@ -135,19 +154,13 @@ function pauseTimer() {
   } else {
     countdown = startTimer(remainingTime, timerDisplay);
     pauseButton.textContent = 'pause';
-    window.onbeforeunload = function() {
+    window.onbeforeunload = function () {
       localStorage.setItem('progress', progress.toFixed());
       localStorage.setItem('remainingTime', remainingTime);
     };
   }
 }
-document.addEventListener("DOMContentLoaded", function () {
-  if (localStorage.getItem('remainingTime')) {
-    remainingTime = parseInt(localStorage.getItem('remainingTime'), 10);
-    countdown = startTimer(remainingTime, timerDisplay);
-    pauseButton.textContent = 'pause';
-  }
-});
+
 function resetTimer(duration) {
   clearInterval(countdown);
   pause = false;
@@ -156,6 +169,7 @@ function resetTimer(duration) {
   localStorage.removeItem('remainingTime');
   localStorage.removeItem('progress');
   saveActiveButton();
+
 }
 
 pauseButton.addEventListener('click', pauseTimer);
@@ -348,7 +362,6 @@ shortBreakButton.addEventListener('click', () => {
   timerDisplay.textContent = `${shortBreakInput.value.padStart(2, '0')}:00`;
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
-
 });
 
 longBreakButton.addEventListener('click', () => {
@@ -356,7 +369,6 @@ longBreakButton.addEventListener('click', () => {
   timerDisplay.textContent = `${longBreakInput.value.padStart(2, '0')}:00`;
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
-
 });
 
 //localStorage
@@ -395,6 +407,7 @@ function loadSelectedColor() {
       activeButton.click();
     }
   }
+
 }
 loadSelectedColor();
 
