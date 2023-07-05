@@ -4,12 +4,15 @@ let remainingTime = 0;
 let minutes = 0;
 let seconds = 0;
 
+const duration = 0;
+
 const timerDisplay = document.getElementById('timer');
 const pauseButton = document.getElementById('pauseButton');
 const pomodoroButton = document.getElementById('pomodoroButton');
 const shortBreakButton = document.getElementById('shortBreakButton');
 const longBreakButton = document.getElementById('longBreakButton');
 const progressCircle = document.getElementById('progressCircle');
+const circle = document.getElementById('circle');
 
 const red = "#F87070";
 const blue = "#70F3F8";
@@ -26,7 +29,6 @@ const applyButton = document.querySelector('.settings__button-apply');
 const shortBreakInput = document.getElementById('shortTimeInput');
 const longBreakInput = document.getElementById('longTimeInput');
 
-const radius = progressCircle.offsetWidth / 2; //
 
 // Settings
 const settingsModal = document.getElementById('settings');
@@ -39,18 +41,36 @@ const applyBtn = document.querySelector('.settings__button-apply');
 const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
-let progress = 0;
-let initialProgress = 0;
 
-let shortBreakProgress = parseFloat(localStorage.getItem('shortBreakProgress')) || 0;
-let longBreakProgress = parseFloat(localStorage.getItem('longBreakProgress')) || 0;
+let initialProgress = parseFloat(localStorage.getItem('progress')) || 0;
+let progress = initialProgress;
 
+
+const selectedColor = localStorage.getItem("selectedColor");
+
+const radiusCircle = parseInt(getComputedStyle(circle).r);
+const circumference = 2 * Math.PI * radiusCircle;
+
+
+
+function updateProgressBar(progress) {
+  const offset = circumference - (progress / 100) * circumference;
+  circle.setAttribute('stroke-dasharray', `${circumference} ${circumference}`);
+  circle.setAttribute('stroke-dashoffset', offset);
+}
+
+function calculateProgress(timer, duration) {
+  const percent = (timer / duration) * 100;
+  updateProgressBar(percent);
+  localStorage.setItem('progress', progress.toFixed());
+};
 
 
 function startTimer(duration, display) {
   let timer = duration;
   let minutes, seconds;
-  const selectedColor = localStorage.getItem("selectedColor");
+
+  updateProgressBar(progress);
 
   if (localStorage.getItem('minutes') && localStorage.getItem('seconds')) {
     minutes = parseInt(localStorage.getItem('minutes'), 10);
@@ -63,22 +83,24 @@ function startTimer(duration, display) {
     localStorage.setItem('minutes', minutes);
     localStorage.setItem('seconds', seconds);
   }
-
   if (localStorage.getItem('progress')) {
     initialProgress = parseFloat(localStorage.getItem('progress'));
+    progress = initialProgress;
+
   } else {
     initialProgress = 0;
+    progress = 0;
   }
-
+  remainingTime = timer;
   countdown = setInterval(function () {
+
     if (!pause) {
+
       if (localStorage.getItem('remainingTime')) {
         timer = parseInt(localStorage.getItem('remainingTime'), 10);
         localStorage.removeItem('remainingTime');
       }
 
-      minutes = parseInt(timer / 60, 10);
-      seconds = parseInt(timer % 60, 10);
 
       minutes = minutes.toString().padStart(2, '0');
       seconds = seconds.toString().padStart(2, '0');
@@ -89,21 +111,14 @@ function startTimer(duration, display) {
       display.textContent = minutes + ":" + seconds;
 
       // Calculate progress
-      progress = initialProgress + ((duration - timer) / duration) * 320;
-      if (duration === shortBreakInput.value * 60) {
-        shortBreakProgress = progress;
-        localStorage.setItem('shortBreakProgress', shortBreakProgress);
-      } else if (duration === longBreakInput.value * 60) {
-        longBreakProgress = progress;
-        localStorage.setItem('longBreakProgress', longBreakProgress);
-      }
-      
-      progressCircle.style.background = `conic-gradient(transparent ${progress}deg, ${selectedColor} 0deg)`;
-      localStorage.setItem('progress', progress);
-      
+      progress = ((duration - timer) / duration) * 100;
+      calculateProgress(timer, duration);
+
+      updateProgressBar(remainingTime)
 
       switch (true) {
-        case (--timer < 0):
+        case (--timer <= 0):
+
           if ((remainingTime / 60) % 30 === 0) {
             timer = 30 * 60; // long break
           } else {
@@ -113,11 +128,9 @@ function startTimer(duration, display) {
 
           const audio = new Audio('audio/snuffbox.mp3');
           audio.play();
-          // pauseTimer();
           break;
-        case (timer < 20):
+        case (timer <= 20):
           remainingTime = timer;
-
           break;
         default:
           remainingTime = timer;
@@ -125,28 +138,18 @@ function startTimer(duration, display) {
       }
       localStorage.setItem('progress', progress);
     }
+
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
     localStorage.setItem('remainingTime', timer);
   }, 1000);
-  window.onbeforeunload = function () {
-    localStorage.setItem('progress', progress.toFixed());
-    localStorage.setItem('remainingTime', timer);
-  };
+  calculateProgress(timer, duration);
   return countdown;
 }
 
-
 function pauseTimer() {
-  if (remainingTime === shortBreakInput.value * 60) {
-    localStorage.removeItem('shortBreakProgress');
-  } else if (remainingTime === longBreakInput.value * 60) {
-    localStorage.removeItem('longBreakProgress');
-  }
-  
   if (countdown !== null) {
     localStorage.setItem('remainingTime', remainingTime);
-    localStorage.setItem('progress', progress.toFixed());
     clearInterval(countdown);
     countdown = null;
     pauseButton.textContent = 'start';
@@ -167,8 +170,8 @@ function resetTimer(duration) {
   pauseButton.textContent = 'start';
   remainingTime = duration;
   localStorage.removeItem('remainingTime');
-  localStorage.removeItem('progress');
   saveActiveButton();
+  localStorage.removeItem('progress');
 
 }
 
@@ -309,7 +312,7 @@ function changeColors() {
     pauseButton.style.color = "";
   });
 
-  progressCircle.style.borderColor = this.color;
+  circle.style.stroke = this.color;
 }
 
 function saveActiveButton() {
@@ -354,14 +357,14 @@ pomodoroButton.addEventListener('click', () => {
   timerDisplay.textContent = `${pomodoroInput.value.padStart(2, '0')}:00`;
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
-
+  localStorage.removeItem('progress');
 });
-
 shortBreakButton.addEventListener('click', () => {
   resetTimer(shortBreakInput.value * 60);
   timerDisplay.textContent = `${shortBreakInput.value.padStart(2, '0')}:00`;
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
+  localStorage.removeItem('progress');
 });
 
 longBreakButton.addEventListener('click', () => {
@@ -369,6 +372,7 @@ longBreakButton.addEventListener('click', () => {
   timerDisplay.textContent = `${longBreakInput.value.padStart(2, '0')}:00`;
   localStorage.removeItem('minutes');
   localStorage.removeItem('seconds');
+  localStorage.removeItem('progress');
 });
 
 //localStorage
@@ -407,7 +411,6 @@ function loadSelectedColor() {
       activeButton.click();
     }
   }
-
 }
 loadSelectedColor();
 

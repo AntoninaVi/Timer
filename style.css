@@ -135,19 +135,45 @@ body {
 }
 
 .main-time-progress {
-  position: absolute;
-  top: 0.8rem;
-  left: 0.8rem;
+  position: relative;
   width: 23em;
   height: 23em;
   border-radius: 50%;
+}
+
+.main-time-progress-svg {
+  position: absolute;
+  top: -1.3em;
+  left: 0.6em;
+  z-index: 10;
+  width: 24em;
+  height: 25em;
+}
+
+#circle {
+  position: relative;
+  width: 23em;
+  height: 23em;
+  stroke-width: 12px;
+  cx: 11em;
+  cy: 12em;
+  r: 11em;
+  border-radius: 50%;
   -webkit-transform-origin: center;
           transform-origin: center;
+  stroke: #70f3f8;
+  fill: transparent;
+  stroke-linecap: round;
+  -webkit-transition: stroke-dashoffset 0.3s;
+  transition: stroke-dashoffset 0.3s;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
 }
 
 .timer {
-  position: relative;
-  top: 0.5em;
+  position: absolute;
+  top: 0.6em;
+  left: 0.7em;
   z-index: 1;
   font-size: 6.25em;
   text-align: center;
@@ -159,10 +185,10 @@ body {
 .timer::before {
   content: "";
   position: absolute;
-  top: -0.4em;
-  left: 0.5rem;
-  height: 3.5em;
-  width: 3.5em;
+  top: -0.5em;
+  left: -0.6em;
+  height: 3.8em;
+  width: 3.8em;
   border-radius: 50%;
   background-color: #161932;
   z-index: -1;
@@ -170,7 +196,7 @@ body {
 
 .pause-btn {
   position: relative;
-  top: 9em;
+  top: -4em;
   display: block;
   margin: 0 auto;
   font-weight: 700;
@@ -181,7 +207,7 @@ body {
   color: #d7e0ff;
   background-color: transparent;
   border: none;
-  z-index: 1;
+  z-index: 10;
   cursor: pointer;
 }
 .pause-btn:hover {
