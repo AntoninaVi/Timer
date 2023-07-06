@@ -3,6 +3,7 @@ let countdown = null;
 let remainingTime = 0;
 let minutes = 0;
 let seconds = 0;
+let timerValue;
 
 const duration = 0;
 
@@ -29,7 +30,6 @@ const applyButton = document.querySelector('.settings__button-apply');
 const shortBreakInput = document.getElementById('shortTimeInput');
 const longBreakInput = document.getElementById('longTimeInput');
 
-
 // Settings
 const settingsModal = document.getElementById('settings');
 const pomodoroInput = document.querySelector('#pomodoroTimeInput');
@@ -41,17 +41,13 @@ const applyBtn = document.querySelector('.settings__button-apply');
 const fontButtons = document.querySelectorAll('#selectFont button');
 const defaultFont = localStorage.getItem('font') || 'sans-serif';
 
-
 let initialProgress = parseFloat(localStorage.getItem('progress')) || 0;
 let progress = initialProgress;
-
 
 const selectedColor = localStorage.getItem("selectedColor");
 
 const radiusCircle = parseInt(getComputedStyle(circle).r);
 const circumference = 2 * Math.PI * radiusCircle;
-
-
 
 function updateProgressBar(progress) {
   const offset = circumference - (progress / 100) * circumference;
@@ -64,7 +60,6 @@ function calculateProgress(timer, duration) {
   updateProgressBar(percent);
   localStorage.setItem('progress', progress.toFixed());
 };
-
 
 function startTimer(duration, display) {
   let timer = duration;
@@ -83,25 +78,24 @@ function startTimer(duration, display) {
     localStorage.setItem('minutes', minutes);
     localStorage.setItem('seconds', seconds);
   }
-  if (localStorage.getItem('progress')) {
-    initialProgress = parseFloat(localStorage.getItem('progress'));
-    progress = initialProgress;
-
-  } else {
-    initialProgress = 0;
-    progress = 0;
+  switch (localStorage.getItem('progress')) {
+    case null:
+      initialProgress = 0;
+      progress = 0;
+      break;
+    default:
+      initialProgress = parseFloat(localStorage.getItem('progress'));
+      progress = initialProgress;
+      break;
   }
   remainingTime = timer;
   countdown = setInterval(function () {
 
     if (!pause) {
-
       if (localStorage.getItem('remainingTime')) {
         timer = parseInt(localStorage.getItem('remainingTime'), 10);
         localStorage.removeItem('remainingTime');
       }
-
-
       minutes = minutes.toString().padStart(2, '0');
       seconds = seconds.toString().padStart(2, '0');
 
@@ -146,21 +140,23 @@ function startTimer(duration, display) {
   calculateProgress(timer, duration);
   return countdown;
 }
-
 function pauseTimer() {
-  if (countdown !== null) {
-    localStorage.setItem('remainingTime', remainingTime);
-    clearInterval(countdown);
-    countdown = null;
-    pauseButton.textContent = 'start';
-    window.onbeforeunload = null;
-  } else {
-    countdown = startTimer(remainingTime, timerDisplay);
-    pauseButton.textContent = 'pause';
-    window.onbeforeunload = function () {
-      localStorage.setItem('progress', progress.toFixed());
+  switch (countdown) {
+    case null:
+      countdown = startTimer(remainingTime, timerDisplay);
+      pauseButton.textContent = 'pause';
+      window.onbeforeunload = function() {
+        localStorage.setItem('progress', progress.toFixed());
+        localStorage.setItem('remainingTime', remainingTime);
+      };
+      break;
+    default:
       localStorage.setItem('remainingTime', remainingTime);
-    };
+      clearInterval(countdown);
+      countdown = null;
+      pauseButton.textContent = 'start';
+      window.onbeforeunload = null;
+      break;
   }
 }
 
@@ -172,11 +168,9 @@ function resetTimer(duration) {
   localStorage.removeItem('remainingTime');
   saveActiveButton();
   localStorage.removeItem('progress');
-
 }
 
 pauseButton.addEventListener('click', pauseTimer);
-
 
 // SETTINGS SECTION
 // Modal window
@@ -232,7 +226,6 @@ applyBtn.addEventListener('click', () => {
     alert('Please enter valid numbers');
   }
 });
-
 
 // Load saved values from localStorage
 pomodoroInput.value = localStorage.getItem('pomodoroTime') || pomodoroInput.value;
@@ -421,5 +414,20 @@ if (activeButtonId) {
     activeButton.click();
   }
 }
+
+switch (activeButtonId) {
+  case "pomodoroButton":
+    timerValue = pomodoroInput.value;
+    break;
+  case "shortBreakButton":
+    timerValue = shortBreakInput.value;
+    break;
+  case "longBreakButton":
+    timerValue = longBreakInput.value;
+    break;
+  default:
+    timerValue = pomodoroInput.value;
+}
+timerDisplay.textContent = `${timerValue.toString().padStart(2, '0')}:00`;
 
 
